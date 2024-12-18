@@ -7,12 +7,13 @@ interface NavLink {
 }
 
 interface HeaderProps {
-  logoSrc: string; // Logo image path
-  navLinks: NavLink[]; // Array of navigation links
-  activeLink: string; // Active link path
+  logoSrc: string;          // Logo image path
+  navLinks: NavLink[];      // Array of navigation links
+  activeLink: string;       // Active link path
+  showAuthButtons?: boolean; // Optional prop to show Register/Login buttons
 }
 
-const Header: React.FC<HeaderProps> = ({ logoSrc, navLinks, activeLink }) => {
+const Header: React.FC<HeaderProps> = ({ logoSrc, navLinks, activeLink, showAuthButtons }) => {
   return (
     <header className="header">
       <img src={logoSrc} alt="Fetch Me Home" className="logo" />
@@ -27,6 +28,14 @@ const Header: React.FC<HeaderProps> = ({ logoSrc, navLinks, activeLink }) => {
           </a>
         ))}
       </nav>
+
+      {/* Conditionally show Register/Login buttons */}
+      {showAuthButtons && (
+        <div className="header-cta">
+          <button className="register-btn">Register</button>
+          <button className="login-btn">Login</button>
+        </div>
+      )}
     </header>
   );
 };
