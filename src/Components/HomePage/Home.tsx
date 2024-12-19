@@ -33,10 +33,6 @@ const Home: React.FC = () => {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="footer">
-        <p>&copy; 2023 Fetch me Home. All rights reserved.</p>
-      </footer>
     </div>
   );
 };
