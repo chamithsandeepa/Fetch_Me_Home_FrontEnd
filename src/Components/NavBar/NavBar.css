@@ -1,110 +1,249 @@
-/* Navbar container */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(to right, #3b82f6, #2563eb); /* Modern gradient with vivid blue */
-    padding: 20px 40px;
-    position: sticky; /* Fixed position */
-    top: 0;
-    z-index: 1000; /* Ensure it's above other content */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    transition: background-color 0.3s ease; /* Smooth background transition */
-  }
-  
-  /* Navbar scroll effect */
-  .header.scrolled {
-    background: #2563eb; /* Solid background on scroll */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow */
-  }
-  
-  /* Logo styling */
-  .logo {
-    object-fit: cover;
-    height: 50px;
-    transition: transform 0.3s ease; /* Smooth zoom effect */
-  }
-  
-  .logo:hover {
-    transform: scale(1.1); /* Slight zoom on hover */
-  }
-  
-  /* Navigation links container */
+/* NavBar.css */
+.navbar {
+  background: linear-gradient(to right, #ffffff, #f8f9fa);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar:hover {
+  background-color: #f4f4f8;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-container {
+  flex-shrink: 0;
+}
+
+.logo {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background-color: #f4efff;
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nav-links:hover {
+  background-color: #ece6ff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+  color: #4a154b;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  transition: all 0.3s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+  background-color: #dcd3ff;
+  color: #2e0d4f;
+  transform: translateY(-3px);
+}
+
+.nav-link.active {
+  background-color: #7b2cbf;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.register-btn,
+.login-btn {
+  padding: 0.6rem 1.5rem;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.register-btn {
+  background-color: #f0d1ff;
+  color: #4a154b;
+  border: 2px solid transparent;
+}
+
+.register-btn:hover {
+  background-color: #e6c4ff;
+  border-color: #7b2cbf;
+  transform: translateY(-3px);
+}
+
+.login-btn {
+  background-color: #7b2cbf;
+  color: white;
+  border: 2px solid transparent;
+}
+
+.login-btn:hover {
+  background-color: #6a1b9a;
+  border-color: white;
+  transform: translateY(-3px);
+}
+
+/* Animated underline effect for nav links */
+.nav-link::after {
+  content: "";
+  display: block;
+  height: 2px;
+  background: linear-gradient(to right, #7b2cbf, #e6c4ff);
+  transition: width 0.3s ease;
+  width: 0%;
+  margin-top: 5px;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Search bar (optional addition) */
+.nav-search {
+  position: relative;
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+.search-input {
+  padding: 0.5rem 1rem;
+  border: 2px solid #dcd3ff;
+  border-radius: 25px;
+  font-size: 1rem;
+  color: #4a154b;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #7b2cbf;
+  outline: none;
+}
+
+.search-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7b2cbf;
+}
+
+/* Hamburger Menu for Mobile */
+.hamburger-menu {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.hamburger-line {
+  width: 25px;
+  height: 3px;
+  background-color: #4a154b;
+  border-radius: 2px;
+}
+
+@media (max-width: 900px) {
   .nav-links {
-    display: flex;
-    gap: 25px; /* Space between links */
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    margin: 0 1rem;
   }
-  
-  /* Individual navigation links */
+
   .nav-link {
-    text-decoration: none;
-    color: #f3f4f6; /* Off-white text color */
-    font-weight: 600; /* Medium boldness */
-    font-size: 1rem;
-    padding: 8px 16px; /* Padding for button-like appearance */
-    border-radius: 8px; /* Slightly rounded edges */
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
   }
-  
-  /* Active link styling */
-  .nav-link.active {
-    background-color: #14b8a6; /* Vibrant teal background for active link */
-    color: #ffffff; /* White text */
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for emphasis */
+
+  .auth-buttons {
+    gap: 0.75rem;
   }
-  
-  /* Hover effects for links */
-  .nav-link:hover {
-    background-color: #0ea5e9; /* Lighter blue on hover */
-    color: white;
-    transform: translateY(-2px); /* Subtle lift effect */
+
+  .register-btn,
+  .login-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
   }
-  
-  /* Call-to-action buttons (Register/Login) */
-  .header-cta {
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.5rem;
+    background-color: transparent;
+  }
+
+  .auth-buttons {
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .hamburger-menu {
     display: flex;
-    gap: 20px; /* Even spacing between buttons */
   }
-  
-  .register-btn, .login-btn {
-    background: #fbbf24; /* Golden yellow */
-    color: #111827; /* Dark text for contrast */
-    border: none;
-    border-radius: 30px; /* Pill-shaped buttons */
-    padding: 10px 25px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Soft shadow */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+@media (max-width: 480px) {
+  .nav-links {
+    flex-direction: column;
+    gap: 0.5rem;
   }
-  
-  .register-btn:hover, .login-btn:hover {
-    background: #f59e0b; /* Slightly darker golden-yellow on hover */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); /* Stronger shadow */
-    transform: translateY(-3px); /* Lift effect */
+
+  .nav-link {
+    font-size: 0.85rem;
   }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .header {
-      flex-direction: column; /* Stack items vertically */
-      padding: 20px 20px;
-    }
-  
-    .nav-links {
-      flex-wrap: wrap; /* Wrap links to fit smaller screens */
-      justify-content: center;
-      gap: 15px;
-    }
-  
-    .header-cta {
-      margin-top: 15px;
-    }
+
+  .auth-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
   }
-  
-  /* Smooth scroll indicator for navbars */
-  body {
-    scroll-behavior: smooth; /* Enhances navigation with smooth scrolling */
+
+  .register-btn,
+  .login-btn {
+    width: 100%;
+    text-align: center;
   }
-  
+}
