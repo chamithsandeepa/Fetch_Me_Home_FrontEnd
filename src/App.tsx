@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import './App.css';
-import Header from './Components/NavBar/NavBar'; // Adjust the import path as needed
-import Footer from './Components/Footer/Footer'; // Adjust the import path as needed
-import logos from './assets/logos.jpg'; // Replace with the actual logo file path
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './Components/NavBar/NavBar'; // Import Navbar component
+import Footer from './Components/Footer/Footer'; // Import Footer component
+import Home from './Components/HomePage/Home'; // Import the Home component
+import logos from './assets/logos.jpg'; // Import logo image
 
-function App() {
-  const [activeLink, setActiveLink] = useState(window.location.pathname); // Set the current active link
-
+const App: React.FC = () => {
+  // Define navigation links for the Header
   const navLinks = [
     { label: 'Home', path: '/' },
     { label: 'Adopt a Pet', path: '/adopt' },
@@ -15,24 +15,72 @@ function App() {
   ];
 
   return (
-    <div className="app-container">
-      {/* Header Section */}
-      <Header
-        logoSrc={logos} // Pass logo image source
-        navLinks={navLinks} // Pass navigation links
-        activeLink={activeLink} // Pass the active link
-      />
+    <Router>
+      <div className="app-container">
+        <Routes>
+          {/* Home Route with Register/Login Buttons */}
+          <Route
+            path="/"
+            element={
+              <>
+                <Header
+                  logoSrc={logos}
+                  navLinks={navLinks}
+                  activeLink="/"
+                  showAuthButtons={true} // Show buttons on Home page
+                />
+                <Home />
+              </>
+            }
+          />
 
-      {/* Main Content */}
-      <main className="main-content">
-        {/* Add your page content here */}
-        <h1>Welcome to Fetch Me Home</h1>
-      </main>
+          {/* Other Routes without Register/Login Buttons */}
+          <Route
+            path="/adopt"
+            element={
+              <>
+                <Header
+                  logoSrc={logos}
+                  navLinks={navLinks}
+                  activeLink="/adopt"
+                />
+                <h1>Adopt a Pet Page</h1>
+              </>
+            }
+          />
+          <Route
+            path="/blogs"
+            element={
+              <>
+                <Header
+                  logoSrc={logos}
+                  navLinks={navLinks}
+                  activeLink="/blogs"
+                />
+                <h1>Blogs Page</h1>
+              </>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <>
+                <Header
+                  logoSrc={logos}
+                  navLinks={navLinks}
+                  activeLink="/contact"
+                />
+                <h1>Contact Us Page</h1>
+              </>
+            }
+          />
+        </Routes>
 
-      {/* Footer Section */}
-      <Footer />
-    </div>
+        {/* Footer Section */}
+        <Footer />
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
