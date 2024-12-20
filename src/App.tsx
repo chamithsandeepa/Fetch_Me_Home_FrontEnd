@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './Components/NavBar/NavBar'; // Import Navbar component
-import Footer from './Components/Footer/Footer'; // Import Footer component
-import Home from './Components/HomePage/Home'; // Import the Home component
-import logos from './assets/logos.jpg'; // Import logo image
+import Header from './Components/NavBar/NavBar';
+import Footer from './Components/Footer/Footer';
+import Home from './Components/HomePage/Home';
+import Register from './Components/UserRegister/UserRegister'; // Import Register component
+import logos from './assets/logos.jpg';
 
 const App: React.FC = () => {
   // Define navigation links for the Header
@@ -12,13 +13,14 @@ const App: React.FC = () => {
     { label: 'Adopt a Pet', path: '/adopt' },
     { label: 'Blogs', path: '/blogs' },
     { label: 'Contact Us', path: '/contact' },
+    { label: 'Register', path: '/register' }, // Add the Register page to nav links if desired
   ];
 
   return (
     <Router>
       <div className="app-container">
         <Routes>
-          {/* Home Route with Register/Login Buttons */}
+          {/* Home Route */}
           <Route
             path="/"
             element={
@@ -27,14 +29,30 @@ const App: React.FC = () => {
                   logoSrc={logos}
                   navLinks={navLinks}
                   activeLink="/"
-                  showAuthButtons={true} // Show buttons on Home page
+                  showAuthButtons={true}
                 />
                 <Home />
               </>
             }
           />
 
-          {/* Other Routes without Register/Login Buttons */}
+          {/* Register Route */}
+          <Route
+            path="/register"
+            element={
+              <>
+                <Header
+                  logoSrc={logos}
+                  navLinks={navLinks}
+                  activeLink="/register"
+                  showAuthButtons={false} // No need for login/register buttons on this page
+                />
+                <Register />
+              </>
+            }
+          />
+
+          {/* Adopt a Pet Route */}
           <Route
             path="/adopt"
             element={
@@ -48,6 +66,8 @@ const App: React.FC = () => {
               </>
             }
           />
+
+          {/* Blogs Route */}
           <Route
             path="/blogs"
             element={
@@ -61,6 +81,8 @@ const App: React.FC = () => {
               </>
             }
           />
+
+          {/* Contact Us Route */}
           <Route
             path="/contact"
             element={
