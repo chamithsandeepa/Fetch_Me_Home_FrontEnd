@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import './Home.css';
 import blog1 from '../../assets/blog1.jpg';
-import blog2 from '../../assets/blog2.jpg';
-import home from '../../assets/home.jpg';
-import rex from '../../assets/rex.jpg';
+// import blog2 from '../../assets/blog2.jpg';
+// import home from '../../assets/home.jpg';
+// import rex from '../../assets/rex.jpg';
 //import logos from '../../assets/logos.jpg'; // Hero section background image
 
 const Home: React.FC = () => {
