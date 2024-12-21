@@ -1,10 +1,9 @@
-/* Register.css */
 .register-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #00b4d8;
+  background-color: #f0f9ff; /* Updated to match the Login page background color */
   padding: 20px;
 }
 
@@ -29,56 +28,65 @@
   margin-bottom: 20px;
 }
 
+.input-group input,
+.register-button {
+  width: 100%; /* Ensures the width of inputs and buttons are consistent */
+  box-sizing: border-box; /* Includes padding and borders in the width calculation */
+}
+
 .input-group input {
-  width: 100%;
   padding: 12px;
-  border: none;
-  background-color: #f0f4f8; /* Updated background color */
+  border: 2px solid #00bcd4; /* Match the Login input border color */
+  background-color: #ffffff; /* Match the Login input background color */
+  color: #004080; /* Match the Login input text color */
   border-radius: 8px;
   font-size: 1rem;
-  transition: background-color 0.3s ease;
+  font-weight: bold; /* Match the Login input font weight */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .input-group input:focus {
   outline: none;
-  background-color: #dbe9f4; /* Updated focus background color */
+  border-color: #004080; /* Match the Login input focus border color */
+  box-shadow: 0 0 8px rgba(0, 64, 128, 0.5); /* Match the Login input focus shadow */
 }
 
 .input-group input::placeholder {
-  color: #90e0ef;
+  color: rgba(0, 64, 128, 0.6); /* Match the Login input placeholder color */
 }
 
 .register-button {
-  width: 100%;
+  width: 100%; /* Match the button width with input */
   padding: 12px;
-  background-color: #003459;
+  background-color: #004080; /* Match the Login button background color */
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
+  font-weight: bold; /* Match the Login button font weight */
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .register-button:hover {
-  background-color: #00498d;
+  background-color: #003366; /* Match the Login button hover color */
 }
 
 .register-button:active {
-  transform: scale(0.98);
+  transform: translateY(0); /* Match the Login button active state */
 }
 
 /* Responsive Design */
 @media (max-width: 480px) {
   .register-card {
-      padding: 20px;
+    padding: 20px;
   }
 
   .register-card h1 {
-      font-size: 2rem;
+    font-size: 2rem;
   }
 
   .input-group input {
-      padding: 10px;
+    padding: 10px;
   }
 }

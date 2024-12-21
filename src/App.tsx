@@ -6,6 +6,7 @@ import Home from './Components/HomePage/Home';
 import AboutUs from './Components/AboutUs/AboutUs';
 import Register from './Components/UserRegister/UserRegister';
 import ContactUs from './Components/ContactUs/ContactUs';
+import Login from './Components/Login/Login'
 import logos from './assets/logos.jpg';
 
 const App: React.FC = () => {
@@ -27,6 +28,7 @@ const App: React.FC = () => {
           <Route path="/blogs" element={<h1>Blogs Page</h1>} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
 
         <Footer />
