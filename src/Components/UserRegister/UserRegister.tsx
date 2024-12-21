@@ -1,5 +1,5 @@
-// Register.tsx
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './UserRegister.css';
 
 interface FormData {
@@ -17,6 +17,8 @@ const Register: React.FC = () => {
     confirmPassword: ''
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -29,6 +31,9 @@ const Register: React.FC = () => {
     e.preventDefault();
     // Add your registration logic here
     console.log('Form submitted:', formData);
+
+    // Navigate to the register page after successful submission
+    navigate('/register');
   };
 
   return (
@@ -40,7 +45,7 @@ const Register: React.FC = () => {
             <input
               type="text"
               name="name"
-              placeholder="name"
+              placeholder="Name"
               value={formData.name}
               onChange={handleChange}
               required
