@@ -6,7 +6,8 @@ import Home from './Components/HomePage/Home';
 import AboutUs from './Components/AboutUs/AboutUs';
 import Register from './Components/UserRegister/UserRegister';
 import ContactUs from './Components/ContactUs/ContactUs';
-import Login from './Components/Login/Login'
+import Login from './Components/Login/Login';
+import AdoptPet from './Components/AdoptPet/AdoptPet'; // Import AdoptPet page
 import logos from './assets/logos.jpg';
 
 const App: React.FC = () => {
@@ -15,6 +16,7 @@ const App: React.FC = () => {
     { label: 'About Us', path: '/about' },
     { label: 'Blogs', path: '/blogs' },
     { label: 'Contact Us', path: '/contact' },
+    { label: 'Adopt a Pet', path: '/adopt' }, // Add link for AdoptPet
   ];
 
   return (
@@ -29,6 +31,7 @@ const App: React.FC = () => {
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/adopt" element={<AdoptPet />} /> {/* Route for AdoptPet */}
         </Routes>
 
         <Footer />
