@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import home from '../../assets/home.jpg';
+import { loginUser } from '../../api'; // Adjust the path to your Axios file
 
 interface SignInFormData {
   email: string;
@@ -10,32 +11,35 @@ interface SignInFormData {
 const SignIn: React.FC = () => {
   const [formData, setFormData] = useState<SignInFormData>({
     email: '',
-    password: ''
+    password: '',
   });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign in logic here
-    console.log('Sign in attempted with:', formData);
+    try {
+      const response = await loginUser(formData);
+      console.log(response); // Handle successful login (e.g., save token, navigate)
+      alert('Login successful!');
+      setErrorMessage(null); // Clear any previous errors
+    } catch (error: any) {
+      setErrorMessage(error.message); // Display error to the user
+    }
   };
 
   return (
     <div className="signin-container">
       {/* Left side - Image */}
       <div className="image-section">
-        <img 
-          src={home} 
-          alt="Dog and cat together"
-          className="feature-image"
-        />
+        <img src={home} alt="Dog and cat together" className="feature-image" />
       </div>
 
       {/* Right side - Sign In Form */}
@@ -43,6 +47,8 @@ const SignIn: React.FC = () => {
         <div className="form-container">
           <h1>SIGN IN</h1>
           <p className="subtitle">Sign in with email address and password</p>
+
+          {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display errors */}
 
           <form onSubmit={handleSubmit}>
             <div className="input-group">
@@ -74,9 +80,7 @@ const SignIn: React.FC = () => {
             </button>
           </form>
 
-          <h2 className="adventure-text">
-            SIGN IN TO YOUR ADVENTURE!
-          </h2>
+          <h2 className="adventure-text">SIGN IN TO YOUR ADVENTURE!</h2>
         </div>
       </div>
     </div>
