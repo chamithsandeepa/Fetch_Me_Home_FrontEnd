@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../../api'; // Import your Axios function
 import './UserRegister.css';
 
 interface FormData {
@@ -14,26 +15,37 @@ const Register: React.FC = () => {
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Add your registration logic here
-    console.log('Form submitted:', formData);
+    try {
+      // Call the Axios function to register the user
+      const response = await registerUser(formData);
+      console.log('Registration successful:', response);
 
-    // Navigate to the register page after successful submission
-    navigate('/register');
+      // Display success message and navigate
+      setSuccessMessage('Registration successful!');
+      setErrorMessage(null);
+      setTimeout(() => navigate('/login'), 2000); // Redirect to login page after 2 seconds
+    } catch (error: any) {
+      console.error('Registration failed:', error.message);
+      setErrorMessage(error.message); // Display error message
+      setSuccessMessage(null);
+    }
   };
 
   return (
@@ -41,6 +53,8 @@ const Register: React.FC = () => {
       <div className="register-card">
         <h1>REGISTER</h1>
         <form onSubmit={handleSubmit}>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
+          {successMessage && <div className="success-message">{successMessage}</div>}
           <div className="input-group">
             <input
               type="text"
