@@ -7,7 +7,8 @@ import AboutUs from './Components/AboutUs/AboutUs';
 import Register from './Components/UserRegister/UserRegister';
 import ContactUs from './Components/ContactUs/ContactUs';
 import Login from './Components/Login/Login';
-import AdoptPet from './Components/AdoptPet/AdoptPet'; // Import AdoptPet page
+import AdoptPet from './Components/AdoptPet/AdoptPet';
+import PetProfilePage from './Components/PetProfile/PetProfile';
 import logos from './assets/logos.jpg';
 
 const App: React.FC = () => {
@@ -16,7 +17,7 @@ const App: React.FC = () => {
     { label: 'About Us', path: '/about' },
     { label: 'Blogs', path: '/blogs' },
     { label: 'Contact Us', path: '/contact' },
-    { label: 'Adopt a Pet', path: '/adopt' }, // Add link for AdoptPet
+    { label: 'Adopt a Pet', path: '/adopt' },
   ];
 
   return (
@@ -31,7 +32,8 @@ const App: React.FC = () => {
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/adopt" element={<AdoptPet />} /> {/* Route for AdoptPet */}
+          <Route path="/adopt" element={<AdoptPet />} />
+          <Route path="/pet-profile/:petId" element={<PetProfilePage />} /> {/* Dynamic route for pet profile */}
         </Routes>
 
         <Footer />
