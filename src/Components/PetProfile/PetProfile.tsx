@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom"; // Import useParams
+import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
 import './PetProfile.css';
 import rex from '../../assets/rex.jpg';
 
@@ -20,6 +20,7 @@ interface PetProfile {
 
 const PetProfilePage: React.FC = () => {
   const { petId } = useParams(); // Get petId from URL params
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   // Fetch or filter pet data based on petId, here we use a static pet for simplicity
   const petData: PetProfile = {
@@ -38,6 +39,11 @@ const PetProfilePage: React.FC = () => {
     medicalInfo:
       "Rex is vaccinated, microchipped, and treated for fleas and worms.",
     imageUrl: rex, // Use the imported image
+  };
+
+  // Function to handle the navigation
+  const handleApplyToAdopt = () => {
+    navigate("/adopt-to-pet"); // Navigate to the Adoption Form page
   };
 
   return (
@@ -72,7 +78,7 @@ const PetProfilePage: React.FC = () => {
               <span>Contact:</span>
               <p>{petData.contact}</p>
             </div>
-            <button className="adopt-button">Apply to Adopt</button>
+            <button className="adopt-button" onClick={handleApplyToAdopt}>Apply to Adopt</button>
           </div>
         </div>
 
