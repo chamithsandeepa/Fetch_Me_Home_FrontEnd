@@ -9,6 +9,7 @@ import ContactUs from './Components/ContactUs/ContactUs';
 import Login from './Components/Login/Login';
 import AdoptPet from './Components/AdoptPet/AdoptPet';
 import PetProfilePage from './Components/PetProfile/PetProfile';
+import ApplyToAdoptPage from './Components/ApplyToAdopt/ApplyToAdopt'; // Assuming the adoption form is here
 import logos from './assets/logos.jpg';
 
 const App: React.FC = () => {
@@ -34,6 +35,7 @@ const App: React.FC = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/adopt" element={<AdoptPet />} />
           <Route path="/pet-profile/:petId" element={<PetProfilePage />} /> {/* Dynamic route for pet profile */}
+          <Route path="/adopt-to-pet" element={<ApplyToAdoptPage />} /> {/* Route for adoption form */}
         </Routes>
 
         <Footer />
