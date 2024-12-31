@@ -8,6 +8,7 @@ interface FormData {
   email: string;
   password: string;
   confirmPassword: string;
+  role:string;
 }
 
 const Register: React.FC = () => {
@@ -16,6 +17,7 @@ const Register: React.FC = () => {
     email: '',
     password: '',
     confirmPassword: '',
+    role:'user'
   });
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
