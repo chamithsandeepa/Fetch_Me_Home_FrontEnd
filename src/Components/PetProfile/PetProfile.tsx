@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
-import './PetProfile.css';
-import rex from '../../assets/rex.jpg';
+import "./PetProfile.css";
+import rex from "../../assets/rex.jpg";
 
 interface PetProfile {
   name: string;
@@ -19,7 +19,6 @@ interface PetProfile {
 }
 
 const PetProfilePage: React.FC = () => {
-  const { petId } = useParams(); // Get petId from URL params
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   // Fetch or filter pet data based on petId, here we use a static pet for simplicity
@@ -51,7 +50,11 @@ const PetProfilePage: React.FC = () => {
       <div className="profile-container">
         <div className="profile-grid">
           <div className="image-section">
-            <img src={petData.imageUrl} alt={petData.name} className="pet-image" />
+            <img
+              src={petData.imageUrl}
+              alt={petData.name}
+              className="pet-image"
+            />
             <h2 className="title">Meet {petData.name}!</h2>
             <p className="description">{petData.description}</p>
           </div>
@@ -78,7 +81,9 @@ const PetProfilePage: React.FC = () => {
               <span>Contact:</span>
               <p>{petData.contact}</p>
             </div>
-            <button className="adopt-button" onClick={handleApplyToAdopt}>Apply to Adopt</button>
+            <button className="adopt-button" onClick={handleApplyToAdopt}>
+              Apply to Adopt
+            </button>
           </div>
         </div>
 
