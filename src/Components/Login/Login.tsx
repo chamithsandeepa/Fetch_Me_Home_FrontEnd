@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
-import './Login.css';
-import home from '../../assets/home.jpg';
-import { loginUser } from '../../api'; // Adjust the path to your Axios file
+import React, { useState } from "react";
+import "./Login.css";
+import home from "../../assets/home.jpg";
+import { loginUser } from "../../api";
+import { useNavigate } from "react-router-dom";
 
 interface SignInFormData {
   email: string;
   password: string;
 }
 
-const SignIn: React.FC = () => {
+const Login: React.FC = () => {
   const [formData, setFormData] = useState<SignInFormData>({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,29 +29,39 @@ const SignIn: React.FC = () => {
     e.preventDefault();
     try {
       const response = await loginUser(formData);
-      console.log(response); // Handle successful login (e.g., save token, navigate)
-      alert('Login successful!');
-      setErrorMessage(null); // Clear any previous errors
+
+      localStorage.setItem("role", response.role);
+      // Dispatch custom event for NavBar update
+      window.dispatchEvent(
+        new CustomEvent("authChange", {
+          detail: { role: response.role },
+        })
+      );
+
+      if (response.role === "admin") {
+        navigate("/admin");
+      } else if (response.role === "user") {
+        navigate("/");
+      } else {
+        throw new Error("Invalid role.");
+      }
+
+      setErrorMessage(null);
     } catch (error: any) {
-      setErrorMessage(error.message); // Display error to the user
+      setErrorMessage(error.message);
     }
   };
 
   return (
     <div className="signin-container">
-      {/* Left side - Image */}
       <div className="image-section">
         <img src={home} alt="Dog and cat together" className="feature-image" />
       </div>
-
-      {/* Right side - Sign In Form */}
       <div className="form-section">
         <div className="form-container">
           <h1>SIGN IN</h1>
           <p className="subtitle">Sign in with email address and password</p>
-
-          {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display errors */}
-
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
           <form onSubmit={handleSubmit}>
             <div className="input-group">
               <div className="input-container">
@@ -62,7 +74,6 @@ const SignIn: React.FC = () => {
                   required
                 />
               </div>
-
               <div className="input-container">
                 <input
                   type="password"
@@ -74,12 +85,10 @@ const SignIn: React.FC = () => {
                 />
               </div>
             </div>
-
             <button type="submit" className="signin-button">
               Sign in
             </button>
           </form>
-
           <h2 className="adventure-text">SIGN IN TO YOUR ADVENTURE!</h2>
         </div>
       </div>
@@ -87,4 +96,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default Login;
