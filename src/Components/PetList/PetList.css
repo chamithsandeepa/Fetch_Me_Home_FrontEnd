@@ -1,0 +1,99 @@
+.page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+  /* padding: 2rem; */
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-btn {
+  background: #007bff;
+  color: white;
+}
+
+.add-btn:hover {
+  background: #0056b3;
+}
+
+.delete-btn {
+  background: #d9534f;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #c9302c;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.table th {
+  background: #f9f9f9;
+  font-weight: bold;
+  text-align: center;
+}
+
+.table td {
+  text-align: center;
+}
+
+.input,
+.select {
+  width: 90%; /* Ensure the inputs fit well within the cell */
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center; /* Center-align text within inputs */
+}
+
+.action-cell {
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}
