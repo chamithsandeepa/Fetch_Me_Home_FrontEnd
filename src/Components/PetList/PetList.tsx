@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./PetList.css";
 import { Plus, Trash2 } from "lucide-react";
-import AdminNavBar from "../AdminNavBar/AdminNavBar";
+import AdminNavBar from "../AdminNavBar/AdminNavBar"; // Corrected path
 
 interface Pet {
   id: string;
@@ -28,8 +28,7 @@ const PetListPage = () => {
 
   return (
     <div className="page">
-      {/* Include AdminNavBar */}
-      <AdminNavBar />
+      <AdminNavBar /> {/* Include AdminNavBar */}
       <div className="container">
         <div className="header">
           <h1 className="title">Listed Pets</h1>
