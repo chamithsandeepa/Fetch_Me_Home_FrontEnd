@@ -12,11 +12,12 @@ import AboutUs from "./Components/AboutUs/AboutUs";
 import Register from "./Components/UserRegister/UserRegister";
 import ContactUs from "./Components/ContactUs/ContactUs";
 import Login from "./Components/Login/Login";
-import AdminNavBar from "./Components/AdminNavBar/AdminNavBar"; // Updated import
+import AdminNavBar from "./Components/AdminNavBar/AdminNavBar";
 import AdoptPet from "./Components/AdoptPet/AdoptPet";
 import PetProfilePage from "./Components/PetProfile/PetProfile";
 import ApplyToAdoptPage from "./Components/ApplyToAdopt/ApplyToAdopt";
-import PetListPage from "./Components/PetList/PetList"; // Import PetListPage
+import PetListPage from "./Components/PetList/PetList";
+import AddPetForm from "./Components/AddPet/AddPet";
 import logos from "./assets/logos.jpg";
 
 const App: React.FC = () => {
@@ -55,9 +56,14 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="app-container">
+        {/* Render NavBar for non-admin pages */}
         {!window.location.pathname.startsWith("/admin") && (
           <NavBar logoSrc={logos} navLinks={navLinks} />
         )}
+
+        {/* Admin NavBar visible only on admin pages */}
+        {window.location.pathname.startsWith("/admin") &&
+          userRole === "admin" && <AdminNavBar />}
 
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -80,11 +86,10 @@ const App: React.FC = () => {
             path="/admin/*"
             element={
               <ProtectedAdminRoute>
-                <AdminNavBar />
+                <h1>HOme Page</h1>
               </ProtectedAdminRoute>
             }
           />
-
           <Route
             path="/admin/pets"
             element={
@@ -93,10 +98,19 @@ const App: React.FC = () => {
               </ProtectedAdminRoute>
             }
           />
+          <Route
+            path="/admin/add-pet"
+            element={
+              <ProtectedAdminRoute>
+                <AddPetForm />
+              </ProtectedAdminRoute>
+            }
+          />
 
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
 
+        {/* Render Footer for non-admin pages */}
         {!window.location.pathname.startsWith("/admin") && <Footer />}
       </div>
     </Router>
