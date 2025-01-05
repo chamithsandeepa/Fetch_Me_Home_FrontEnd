@@ -68,11 +68,11 @@ const AdminNavBar = () => {
       </nav>
 
       {/* Optional: Secondary Navigation or Breadcrumbs */}
-      <div className="breadcrumbs">
+      {/* <div className="breadcrumbs">
         <div className="breadcrumbs-container">
           <p className="breadcrumbs-text">Dashboard / Current Page</p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

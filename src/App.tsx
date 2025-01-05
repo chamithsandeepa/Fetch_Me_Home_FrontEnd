@@ -12,10 +12,11 @@ import AboutUs from "./Components/AboutUs/AboutUs";
 import Register from "./Components/UserRegister/UserRegister";
 import ContactUs from "./Components/ContactUs/ContactUs";
 import Login from "./Components/Login/Login";
-import AdminDashboard from "./Components/AdminNavBar/AdminNavBar";
+import AdminNavBar from "./Components/AdminNavBar/AdminNavBar"; // Updated import
 import AdoptPet from "./Components/AdoptPet/AdoptPet";
 import PetProfilePage from "./Components/PetProfile/PetProfile";
 import ApplyToAdoptPage from "./Components/ApplyToAdopt/ApplyToAdopt";
+import PetListPage from "./Components/PetList/PetList"; // Import PetListPage
 import logos from "./assets/logos.jpg";
 
 const App: React.FC = () => {
@@ -44,7 +45,6 @@ const App: React.FC = () => {
     };
   }, []);
 
-  // Protected Route component
   const ProtectedAdminRoute = ({ children }: { children: React.ReactNode }) => {
     if (userRole !== "admin") {
       return <Navigate to="/login" />;
@@ -55,13 +55,11 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="app-container">
-        {/* Show NavBar on all pages except admin dashboard */}
         {!window.location.pathname.startsWith("/admin") && (
           <NavBar logoSrc={logos} navLinks={navLinks} />
         )}
 
         <Routes>
-          {/* Public routes always accessible */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Home />} />
@@ -69,7 +67,6 @@ const App: React.FC = () => {
           <Route path="/blogs" element={<h1>Blogs Page</h1>} />
           <Route path="/contact" element={<ContactUs />} />
 
-          {/* User-specific routes */}
           {userRole === "user" && (
             <>
               <Route path="/adopt" element={<AdoptPet />} />
@@ -78,21 +75,28 @@ const App: React.FC = () => {
             </>
           )}
 
-          {/* Admin route */}
+          {/* Admin Routes */}
           <Route
             path="/admin/*"
             element={
               <ProtectedAdminRoute>
-                <AdminDashboard />
+                <AdminNavBar />
               </ProtectedAdminRoute>
             }
           />
 
-          {/* Catch-all route */}
+          <Route
+            path="/admin/pets"
+            element={
+              <ProtectedAdminRoute>
+                <PetListPage />
+              </ProtectedAdminRoute>
+            }
+          />
+
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
 
-        {/* Show Footer on all pages except admin dashboard */}
         {!window.location.pathname.startsWith("/admin") && <Footer />}
       </div>
     </Router>
