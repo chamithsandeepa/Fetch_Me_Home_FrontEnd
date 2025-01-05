@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
-import "./AdoptPet.css";
+import "./AdoptPet.css"; // Import your CSS styles
 import dog1 from "../../assets/dog1.jpg";
 import cat1 from "../../assets/cat1.jpg";
 import bird1 from "../../assets/dog2.jpg";
 import { Search, RefreshCw } from "lucide-react";
 
+// Define the Pet interface
 interface Pet {
   id: string;
   name: string;
@@ -15,6 +15,7 @@ interface Pet {
   imageUrl: string;
 }
 
+// Define the Filters interface
 interface Filters {
   species: string;
   gender: string;
@@ -125,8 +126,6 @@ const PetAdoptionPage: React.FC = () => {
                 <option value="">Select Species</option>
                 <option value="dog">Dog</option>
                 <option value="cat">Cat</option>
-                <option value="bird">Bird</option>
-                <option value="rabbit">Rabbit</option>
               </select>
             </div>
 
@@ -191,10 +190,7 @@ const PetAdoptionPage: React.FC = () => {
           <main className="pet-grid">
             {samplePets.slice(0, visiblePets).map((pet) => (
               <div key={pet.id} className="pet-card">
-                {/* Use Link to navigate to pet profile page */}
-                <Link to={`/pet-profile/${pet.id}`}>
-                  <img src={pet.imageUrl} alt={pet.name} className="pet-img" />
-                </Link>
+                <img src={pet.imageUrl} alt={pet.name} className="pet-img" />
                 <div className="pet-info">
                   <h3 className="pet-name">{pet.name}</h3>
                   <p>Type: {pet.type}</p>
@@ -203,6 +199,7 @@ const PetAdoptionPage: React.FC = () => {
                 </div>
               </div>
             ))}
+            {/* Load More Button */}
             {visiblePets < samplePets.length && (
               <div className="load-more-wrapper">
                 <button onClick={loadMorePets} className="btn load-more">
