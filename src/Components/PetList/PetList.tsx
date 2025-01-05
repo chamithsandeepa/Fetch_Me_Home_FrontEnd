@@ -1,7 +1,7 @@
 import { useState } from "react";
-import "./PetList.css";
 import { Plus, Trash2 } from "lucide-react";
-import AdminNavBar from "../AdminNavBar/AdminNavBar"; // Corrected path
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import "./PetList.css";
 
 interface Pet {
   id: string;
@@ -14,12 +14,11 @@ interface Pet {
 const PetListPage = () => {
   const [pets, setPets] = useState<Pet[]>([]);
   const [newPet, setNewPet] = useState<Partial<Pet>>({});
+  const navigate = useNavigate(); // Initialize the navigate function
 
   const addPet = () => {
-    if (newPet.species && newPet.name && newPet.color && newPet.sex) {
-      setPets([...pets, { ...newPet, id: Date.now().toString() } as Pet]);
-      setNewPet({});
-    }
+    // Navigate to the AddPetForm page when the button is clicked
+    navigate("/admin/add-pet");
   };
 
   const removePet = (id: string) => {
@@ -28,7 +27,6 @@ const PetListPage = () => {
 
   return (
     <div className="page">
-      <AdminNavBar /> {/* Include AdminNavBar */}
       <div className="container">
         <div className="header">
           <h1 className="title">Listed Pets</h1>

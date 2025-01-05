@@ -39,8 +39,8 @@ const AdminNavBar = () => {
             />
             <NavLink
               icon={<Users size={20} />}
-              text="User Accounts"
-              to="/admin/users"
+              text="Add a Pet"
+              to="/admin/add-pet" // Updated link
             />
             <NavLink
               icon={<BookOpen size={20} />}
@@ -66,13 +66,6 @@ const AdminNavBar = () => {
           </div>
         </div>
       </nav>
-
-      {/* Optional: Secondary Navigation or Breadcrumbs */}
-      {/* <div className="breadcrumbs">
-        <div className="breadcrumbs-container">
-          <p className="breadcrumbs-text">Dashboard / Current Page</p>
-        </div>
-      </div> */}
     </div>
   );
 };

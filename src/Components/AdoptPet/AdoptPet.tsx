@@ -108,12 +108,12 @@ const PetAdoptionPage: React.FC = () => {
   };
 
   return (
-    <div className="pet-adoption-page">
-      <div className="container">
-        <div className="content">
+    <div className="adoption-page">
+      <div className="adoption-container">
+        <div className="adoption-content">
           {/* Filters Sidebar */}
-          <aside className="filters">
-            <div className="filter-group">
+          <aside className="adoption-filters">
+            <div className="adoption-filter-group">
               <label htmlFor="species">Species</label>
               <select
                 id="species"
@@ -130,7 +130,7 @@ const PetAdoptionPage: React.FC = () => {
               </select>
             </div>
 
-            <div className="filter-group">
+            <div className="adoption-filter-group">
               <label htmlFor="gender">Gender</label>
               <select
                 id="gender"
@@ -145,7 +145,7 @@ const PetAdoptionPage: React.FC = () => {
               </select>
             </div>
 
-            <div className="filter-group">
+            <div className="adoption-filter-group">
               <label htmlFor="age">Age</label>
               <select
                 id="age"
@@ -161,7 +161,7 @@ const PetAdoptionPage: React.FC = () => {
               </select>
             </div>
 
-            <div className="filter-group">
+            <div className="adoption-filter-group">
               <label htmlFor="color">Color</label>
               <select
                 id="color"
@@ -177,26 +177,30 @@ const PetAdoptionPage: React.FC = () => {
               </select>
             </div>
 
-            <div className="filter-actions">
-              <button onClick={resetFilters} className="btn reset">
+            <div className="adoption-filter-actions">
+              <button onClick={resetFilters} className="adoption-btn reset">
                 <RefreshCw size={16} /> Reset
               </button>
-              <button className="btn search">
+              <button className="adoption-btn search">
                 <Search size={16} /> Search
               </button>
             </div>
           </aside>
 
           {/* Pet Cards Grid */}
-          <main className="pet-grid">
+          <main className="adoption-pet-grid">
             {samplePets.slice(0, visiblePets).map((pet) => (
-              <div key={pet.id} className="pet-card">
+              <div key={pet.id} className="adoption-pet-card">
                 {/* Use Link to navigate to pet profile page */}
                 <Link to={`/pet-profile/${pet.id}`}>
-                  <img src={pet.imageUrl} alt={pet.name} className="pet-img" />
+                  <img
+                    src={pet.imageUrl}
+                    alt={pet.name}
+                    className="adoption-pet-img"
+                  />
                 </Link>
-                <div className="pet-info">
-                  <h3 className="pet-name">{pet.name}</h3>
+                <div className="adoption-pet-info">
+                  <h3 className="adoption-pet-name">{pet.name}</h3>
                   <p>Type: {pet.type}</p>
                   <p>Age: {pet.age}</p>
                   <p>Location: {pet.location}</p>
@@ -204,8 +208,11 @@ const PetAdoptionPage: React.FC = () => {
               </div>
             ))}
             {visiblePets < samplePets.length && (
-              <div className="load-more-wrapper">
-                <button onClick={loadMorePets} className="btn load-more">
+              <div className="adoption-load-more-wrapper">
+                <button
+                  onClick={loadMorePets}
+                  className="adoption-btn load-more"
+                >
                   Load More
                 </button>
               </div>

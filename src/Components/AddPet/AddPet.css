@@ -1,0 +1,186 @@
+/* General Container */
+.add-pet-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #c2e9fb, #a1c4fd); /* Softer gradient */
+  padding: 2rem;
+  box-sizing: border-box;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Form Wrapper */
+.add-pet-wrapper {
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.add-pet-wrapper:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 12px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Title */
+.add-pet-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  text-align: center;
+  color: #4a4a4a;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.add-pet-title::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 4px;
+  background: #7c3aed;
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+/* Form Styles */
+.add-pet-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Adds gap between input fields */
+}
+
+/* Input and Select Fields */
+.add-pet-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  margin-bottom: 1.5rem;
+}
+
+.add-pet-input:focus {
+  border-color: #7c3aed;
+  outline: none;
+  box-shadow: 0 0 8px rgba(124, 58, 237, 0.3);
+}
+
+/* File Upload Section */
+.add-pet-file-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  border: 2px dashed #bbb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  box-sizing: border-box;
+  background: #f9f9f9;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.add-pet-file-upload:hover {
+  background: #f4f4ff;
+  border-color: #7c3aed;
+}
+
+.add-pet-file-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  color: #777;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+}
+
+.add-pet-file-label:hover {
+  color: #7c3aed;
+}
+
+.add-pet-file-icon {
+  width: 36px;
+  height: 36px;
+  color: #bbb;
+  transition: color 0.3s;
+}
+
+.add-pet-file-label:hover .add-pet-file-icon {
+  color: #7c3aed;
+}
+
+/* Buttons */
+.add-pet-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.add-pet-btn {
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, transform 0.2s;
+  border: none;
+}
+
+.add-pet-btn:active {
+  transform: scale(0.95);
+}
+
+.add-pet-btn-cancel {
+  background: #eaeaea;
+  color: #555;
+}
+
+.add-pet-btn-cancel:hover {
+  background: #d6d6d6;
+}
+
+.add-pet-btn-submit {
+  background: #7c3aed;
+  color: white;
+}
+
+.add-pet-btn-submit:hover {
+  background: #5b21b6;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 500px) {
+  .add-pet-wrapper {
+    padding: 1.5rem;
+  }
+
+  .add-pet-title {
+    font-size: 1.5rem;
+  }
+
+  .add-pet-btn {
+    font-size: 0.9rem;
+  }
+}
