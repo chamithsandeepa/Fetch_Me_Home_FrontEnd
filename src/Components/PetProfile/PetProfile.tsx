@@ -19,7 +19,7 @@ interface PetProfile {
 }
 
 const PetProfilePage: React.FC = () => {
-  // const { petId } = useParams(); // Get petId from URL params
+
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   // Fetch or filter pet data based on petId, here we use a static pet for simplicity
