@@ -1,5 +1,5 @@
 /* General Styles */
-.adopt-page {
+.adoption-page {
   min-height: 100vh;
   background: linear-gradient(to bottom, #e3f2fd, #ffffff);
   padding: 2rem;
@@ -7,21 +7,21 @@
   color: #333;
 }
 
-.container {
+.adoption-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
 }
 
 /* Content Layout */
-.content {
+.adoption-content {
   display: flex;
   gap: 2rem;
   align-items: flex-start;
 }
 
 /* Filters Sidebar */
-.filters {
+.adoption-filters {
   width: 250px;
   background: #fff;
   border-radius: 8px;
@@ -32,7 +32,7 @@
   top: 2rem;
 }
 
-.filters h3 {
+.adoption-filters h3 {
   font-size: 1.2rem;
   margin-bottom: 1rem;
   color: #007bff;
@@ -40,11 +40,11 @@
   letter-spacing: 1px;
 }
 
-.filter-group {
+.adoption-filter-group {
   margin-bottom: 1.5rem;
 }
 
-.filter-group label {
+.adoption-filter-group label {
   display: block;
   font-size: 0.95rem;
   color: #555;
@@ -52,7 +52,7 @@
   font-weight: bold;
 }
 
-.filter-group select {
+.adoption-filter-group select {
   width: 100%;
   padding: 0.6rem;
   border: 1px solid #ddd;
@@ -61,19 +61,19 @@
   transition: border-color 0.3s;
 }
 
-.filter-group select:hover,
-.filter-group select:focus {
+.adoption-filter-group select:hover,
+.adoption-filter-group select:focus {
   border-color: #007bff;
   outline: none;
 }
 
-.filter-actions {
+.adoption-filter-actions {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
 }
 
-.btn {
+.adoption-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,37 +86,37 @@
   transition: background 0.3s, transform 0.2s;
 }
 
-.btn.reset {
+.adoption-btn.reset {
   background: #f8f9fa;
   color: #555;
   border: 1px solid #ddd;
 }
 
-.btn.reset:hover {
+.adoption-btn.reset:hover {
   background: #e2e6ea;
   transform: translateY(-2px);
 }
 
-.btn.search {
+.adoption-btn.search {
   background: #007bff;
   color: #fff;
   border: none;
 }
 
-.btn.search:hover {
+.adoption-btn.search:hover {
   background: #0056b3;
   transform: translateY(-2px);
 }
 
 /* Pet Cards Grid */
-.pet-grid {
+.adoption-pet-grid {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1.5rem;
 }
 
-.pet-card {
+.adoption-pet-card {
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -125,13 +125,13 @@
   position: relative;
 }
 
-.pet-card:hover {
+.adoption-pet-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   background-color: #f9f9ff;
 }
 
-.pet-img {
+.adoption-pet-img {
   width: 100%;
   height: 200px;
   object-fit: cover;
@@ -139,17 +139,17 @@
   transition: filter 0.3s, transform 0.3s;
 }
 
-.pet-card:hover .pet-img {
+.adoption-pet-card:hover .adoption-pet-img {
   filter: brightness(100%);
   transform: scale(1.02);
 }
 
-.pet-info {
+.adoption-pet-info {
   padding: 1rem;
   text-align: center;
 }
 
-.pet-name {
+.adoption-pet-name {
   font-size: 1.4rem;
   font-weight: bold;
   color: #007bff;
@@ -157,18 +157,18 @@
   text-transform: capitalize;
 }
 
-.pet-info p {
+.adoption-pet-info p {
   font-size: 1rem;
   color: #555;
   margin: 0.5rem 0;
 }
 
-.pet-details {
+.adoption-pet-details {
   font-size: 0.9rem;
   color: #777;
 }
 
-.pet-action {
+.adoption-pet-action {
   display: flex;
   justify-content: center;
   margin-top: 1rem;
@@ -192,14 +192,14 @@
 }
 
 /* Load More Button Wrapper */
-.load-more-wrapper {
+.adoption-load-more-wrapper {
   grid-column: 1 / -1; /* Ensures the button spans the full width of the grid */
   display: flex;
   justify-content: center;
   margin-top: 2rem;
 }
 
-.btn.load-more {
+.adoption-btn.load-more {
   background: #28a745;
   color: #fff;
   border: none;
@@ -212,22 +212,22 @@
   transition: background 0.3s, transform 0.2s;
 }
 
-.btn.load-more:hover {
+.adoption-btn.load-more:hover {
   background: #218838;
   transform: translateY(-3px);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .content {
+  .adoption-content {
     flex-direction: column;
   }
 
-  .filters {
+  .adoption-filters {
     width: 100%;
   }
 
-  .pet-grid {
+  .adoption-pet-grid {
     grid-template-columns: 1fr;
   }
 }
