@@ -97,3 +97,31 @@
 .center {
   text-align: center;
 }
+
+.save-btn {
+  background-color: #2196f3; /* Blue color for save button */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background-color: #0b7dda;
+}
+
+.save-all-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4caf50; /* Green color for Save All */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-all-btn:hover {
+  background-color: #45a049;
+}
