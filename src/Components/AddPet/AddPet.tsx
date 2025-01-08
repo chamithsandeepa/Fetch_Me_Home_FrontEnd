@@ -1,18 +1,22 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./AddPet.css";
 import { Upload } from "lucide-react";
+
+const CLOUDINARY_CLOUD_NAME = "dhkig0hkl"; // Your Cloudinary cloud name
+const UPLOAD_PRESET = "pet-adoption-system"; // Your Cloudinary upload preset
 
 interface AddPetFormData {
   species: string;
   name: string;
   breed: string;
-  gender: string;
   sex: string;
+  age: string;
   color: string;
-  arrivedDate: string;
-  arrivedFrom: string;
+  location: string;
   contactNo: string;
-  image?: File;
+  description: string;
+  imageUrl?: string;
 }
 
 const AddPetForm = () => {
@@ -20,25 +24,67 @@ const AddPetForm = () => {
     species: "",
     name: "",
     breed: "",
-    gender: "",
     sex: "",
+    age: "",
     color: "",
-    arrivedDate: "",
-    arrivedFrom: "",
+    location: "",
     contactNo: "",
+    description: "",
+    imageUrl: "",
   });
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", UPLOAD_PRESET); // Your preset
+      formData.append("cloud_name", CLOUDINARY_CLOUD_NAME); // Your cloud name
+
+      try {
+        const response = await axios.post(
+          `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+          formData
+        );
+        setFormData((prev) => ({
+          ...prev,
+          imageUrl: response.data.secure_url,
+        }));
+        console.log(response);
+        alert("Image uploaded successfully!");
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        alert("Failed to upload image. Please try again.");
+      }
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Add your submission logic here
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/pets", // Update with your API endpoint
+        formData, // Send formData directly as JSON
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      alert("Pet added successfully!");
+      console.log(response.data);
+    } catch (error: any) {
+      console.error("Error adding pet:", error.response || error.message);
+      alert("Failed to add pet. Please try again.");
+    }
   };
 
   return (
@@ -53,10 +99,11 @@ const AddPetForm = () => {
               onChange={handleInputChange}
               className="add-pet-input"
             >
-              <option value="">Select Species</option>
+              <option value="" disabled>
+                Select Species
+              </option>
               <option value="dog">Dog</option>
               <option value="cat">Cat</option>
-              <option value="bird">Bird</option>
             </select>
 
             <input
@@ -67,7 +114,6 @@ const AddPetForm = () => {
               onChange={handleInputChange}
               className="add-pet-input"
             />
-
             <input
               type="text"
               name="breed"
@@ -76,16 +122,6 @@ const AddPetForm = () => {
               onChange={handleInputChange}
               className="add-pet-input"
             />
-
-            <input
-              type="text"
-              name="gender"
-              placeholder="Gender"
-              value={formData.gender}
-              onChange={handleInputChange}
-              className="add-pet-input"
-            />
-
             <input
               type="text"
               name="sex"
@@ -94,7 +130,14 @@ const AddPetForm = () => {
               onChange={handleInputChange}
               className="add-pet-input"
             />
-
+            <input
+              type="text"
+              name="age"
+              placeholder="Age"
+              value={formData.age}
+              onChange={handleInputChange}
+              className="add-pet-input"
+            />
             <input
               type="text"
               name="color"
@@ -103,24 +146,14 @@ const AddPetForm = () => {
               onChange={handleInputChange}
               className="add-pet-input"
             />
-
-            <input
-              type="date"
-              name="arrivedDate"
-              value={formData.arrivedDate}
-              onChange={handleInputChange}
-              className="add-pet-input"
-            />
-
             <input
               type="text"
-              name="arrivedFrom"
+              name="location"
               placeholder="Arrived From"
-              value={formData.arrivedFrom}
+              value={formData.location}
               onChange={handleInputChange}
               className="add-pet-input"
             />
-
             <input
               type="tel"
               name="contactNo"
@@ -129,7 +162,13 @@ const AddPetForm = () => {
               onChange={handleInputChange}
               className="add-pet-input"
             />
-
+            <textarea
+              name="description"
+              placeholder="Description"
+              value={formData.description}
+              onChange={handleInputChange}
+              className="add-pet-input add-pet-textarea"
+            />
             <div className="add-pet-file-upload">
               <label className="add-pet-file-label">
                 <Upload className="add-pet-file-icon" />
@@ -138,17 +177,11 @@ const AddPetForm = () => {
                   type="file"
                   className="add-pet-file-input"
                   accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      setFormData((prev) => ({ ...prev, image: file }));
-                    }
-                  }}
+                  onChange={handleFileChange}
                 />
               </label>
             </div>
           </div>
-
           <div className="add-pet-buttons">
             <button type="button" className="add-pet-btn add-pet-btn-cancel">
               Cancel
