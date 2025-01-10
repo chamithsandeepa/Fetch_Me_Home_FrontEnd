@@ -46,6 +46,7 @@ const NavBar: React.FC<NavBarProps> = ({ logoSrc, navLinks }) => {
     // Dispatch event to notify other components
     window.dispatchEvent(new CustomEvent("authChange"));
     navigate("/");
+    location.reload();
   };
 
   return (

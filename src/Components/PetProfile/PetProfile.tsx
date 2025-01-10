@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate, useParams } from "react-router-dom"; // Import useNavigate
 import "./PetProfile.css";
 import axios from "axios";
 
@@ -12,14 +12,17 @@ interface PetData {
   age?: string;
   imageUrl?: string;
   description?: string;
+  location?: string;
+  sex?: string;
+  contactNo?: string;
 }
 
 const PetProfilePage: React.FC = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
-
+  const params = useParams();
   // Initialize petData as an object
   const [petData, setPetData] = useState<PetData>({});
-  const id = "677e3dfb3d81f1648ab752cd"; // Example pet ID
+  const id = params.petId; // Example pet ID
 
   useEffect(() => {
     const getPets = async () => {
@@ -27,7 +30,6 @@ const PetProfilePage: React.FC = () => {
         const response = await axios.get(
           `http://localhost:8080/api/pets/${id}`
         );
-        console.log(response.data);
         setPetData(response.data); // Set the pet data
       } catch (error) {
         console.error("Error fetching pet data:", error);
@@ -55,19 +57,17 @@ const PetProfilePage: React.FC = () => {
               />
             )}
             <h2 className="title">Meet {petData.name || "this pet"}!</h2>
-            <p className="description">
-              {petData.description || "No description available."}
-            </p>
           </div>
 
           <div className="details-section">
-            <div className="availability">Available to Adopt</div>
             <h1 className="pet-name">{petData.name || "Unknown Pet"}</h1>
             <div className="details-list">
               {[
                 ["Breed", petData.breed],
                 ["Color", petData.color],
                 ["Age", petData.age],
+                ["Sex", petData.sex],
+                ["Contact NO", petData.contactNo],
               ].map(([label, value]) => (
                 <div key={label} className="details-item">
                   <span className="details-label">{label}:</span>

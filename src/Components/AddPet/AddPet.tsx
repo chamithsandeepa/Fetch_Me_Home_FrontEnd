@@ -34,7 +34,9 @@ const AddPetForm = () => {
   });
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -58,7 +60,7 @@ const AddPetForm = () => {
           imageUrl: response.data.secure_url,
         }));
         console.log(response);
-        alert("Image uploaded successfully!");
+        // alert("Image uploaded successfully!");
       } catch (error) {
         console.error("Error uploading image:", error);
         alert("Failed to upload image. Please try again.");

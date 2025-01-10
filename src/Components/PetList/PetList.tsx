@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Plus, Trash2, Edit } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";

@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_BASE_URL = 'http://localhost:8080/api/users'; // Backend base URL
+const API_BASE_URL = "http://localhost:8080/api/users"; // Backend base URL
 
 // Function to register a user
 export const registerUser = async (userData: {
@@ -16,13 +16,16 @@ export const registerUser = async (userData: {
     if (error.response) {
       throw new Error(error.response.data);
     } else {
-      throw new Error('Something went wrong.');
+      throw new Error("Something went wrong.");
     }
   }
 };
 
 // Function to log in a user
-export const loginUser = async (credentials: { email: string; password: string }) => {
+export const loginUser = async (credentials: {
+  email: string;
+  password: string;
+}) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/login`, credentials);
     return response.data; // Return success message or user data
@@ -30,7 +33,7 @@ export const loginUser = async (credentials: { email: string; password: string }
     if (error.response) {
       throw new Error(error.response.data);
     } else {
-      throw new Error('Login failed. Please try again.');
+      throw new Error("Login failed. Please try again.");
     }
   }
 };

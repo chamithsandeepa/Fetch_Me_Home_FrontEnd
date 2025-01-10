@@ -12,6 +12,7 @@ interface Pet {
   imageUrl: string;
   species: string;
   breed: string;
+  description: string;
 }
 
 interface Filters {
@@ -19,6 +20,7 @@ interface Filters {
   gender: string;
   age: string;
   color: string;
+  description?: string;
 }
 
 const PetAdoptionPage: React.FC = () => {
@@ -27,6 +29,7 @@ const PetAdoptionPage: React.FC = () => {
     gender: "",
     age: "",
     color: "",
+    description: "",
   });
 
   const [visiblePets, setVisiblePets] = useState<number>(6);
