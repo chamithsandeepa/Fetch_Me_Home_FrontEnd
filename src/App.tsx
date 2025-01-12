@@ -20,6 +20,7 @@ import PetListPage from "./Components/PetList/PetList";
 import AddPetForm from "./Components/AddPet/AddPet";
 import logos from "./assets/logos.jpg";
 import Blogs from "./Components/BlogPage/Blogs";
+import UserAccounts from "./Components/UserAccounts/UserAccounts";
 
 const App: React.FC = () => {
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -104,6 +105,14 @@ const App: React.FC = () => {
             element={
               <ProtectedAdminRoute>
                 <AddPetForm />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/admin/user-accounts"
+            element={
+              <ProtectedAdminRoute>
+                <UserAccounts />
               </ProtectedAdminRoute>
             }
           />
