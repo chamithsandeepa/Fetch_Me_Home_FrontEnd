@@ -19,6 +19,7 @@ import ApplyToAdoptPage from "./Components/ApplyToAdopt/ApplyToAdopt";
 import PetListPage from "./Components/PetList/PetList";
 import AddPetForm from "./Components/AddPet/AddPet";
 import logos from "./assets/logos.jpg";
+import Blogs from "./Components/BlogPage/Blogs";
 
 const App: React.FC = () => {
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -70,7 +71,7 @@ const App: React.FC = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/blogs" element={<h1>Blogs Page</h1>} />
+          <Route path="/blogs" element={<Blogs />} />
           <Route path="/contact" element={<ContactUs />} />
 
           {userRole === "user" && (
