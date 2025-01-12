@@ -1,22 +1,16 @@
 import React from "react";
 import "./AdminNavBar.css";
-import { Link, useNavigate } from "react-router-dom";
-import { Home, List, Users, BookOpen, Settings, LogOut } from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { LogOut } from "lucide-react";
 
 const AdminNavBar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
-    // Clear authentication
     localStorage.removeItem("role");
-
-    // Dispatch auth change event
     window.dispatchEvent(new CustomEvent("authChange"));
-
-    // Navigate to home page
     navigate("/");
-
-    // Force reload to reset all states
     window.location.reload();
   };
 
@@ -31,34 +25,37 @@ const AdminNavBar = () => {
 
           {/* Navigation Links */}
           <div className="navbar-links">
-            <NavLink icon={<Home size={20} />} text="Home" to="/admin/home" />
             <NavLink
-              icon={<List size={20} />}
+              icon={null}
+              text="Home"
+              to="/admin/home"
+              isActive={location.pathname === "/admin/home"}
+            />
+            <NavLink
+              icon={null}
               text="Pet Listing"
               to="/admin/pets"
+              isActive={location.pathname === "/admin/pets"}
             />
             <NavLink
-              icon={<Users size={20} />}
+              icon={null}
               text="Add a Pet"
-              to="/admin/add-pet" // Updated link
+              to="/admin/add-pet"
+              isActive={location.pathname === "/admin/add-pet"}
             />
             <NavLink
-              icon={<BookOpen size={20} />}
-              text="Blogs"
-              to="/admin/blogs"
+              icon={null}
+              text="User Accounts"
+              to="/admin/user-accounts"
+              isActive={location.pathname === "/admin/user-accounts"}
             />
           </div>
 
           {/* Right side - Admin Controls */}
           <div className="navbar-controls">
-            <button className="navbar-control-btn">
-              <Settings size={20} />
-              <span>Settings</span>
-            </button>
             <button
-              className="navbar-control-btn navbar-control-btn-logout"
+              className="navbar-control-btn-logout"
               onClick={handleLogout}
-              style={{ cursor: "pointer" }}
             >
               <LogOut size={20} />
               <span>Logout</span>
@@ -70,20 +67,19 @@ const AdminNavBar = () => {
   );
 };
 
-// NavLink component for consistent styling
+// NavLink component with active state
 const NavLink = ({
   icon,
   text,
   to,
+  isActive,
 }: {
   icon: React.ReactNode;
   text: string;
   to: string;
+  isActive: boolean;
 }) => (
-  <Link
-    to={to}
-    className="flex items-center space-x-1 px-3 py-2 rounded-md text-purple-700 hover:bg-purple-200 hover:text-purple-900 transition-colors duration-200"
-  >
+  <Link to={to} className={`nav-link ${isActive ? "active" : ""}`}>
     {icon}
     <span>{text}</span>
   </Link>
