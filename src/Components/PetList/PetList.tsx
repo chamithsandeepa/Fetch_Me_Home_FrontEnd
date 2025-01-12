@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Plus, Trash2, Edit } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./PetList.css";
 
@@ -8,15 +7,31 @@ interface Pet {
   id: string;
   species: string;
   name: string;
-  color: string;
+  breed: string;
   sex: string;
+  age: number;
+  color: string;
+  location: string;
+  contactNo: string;
+  description: string;
 }
 
 const PetListPage = () => {
   const [pets, setPets] = useState<Pet[]>([]);
   const [editingPetId, setEditingPetId] = useState<string | null>(null);
   const [editedPetData, setEditedPetData] = useState<Partial<Pet>>({});
-  const navigate = useNavigate();
+  const [newPet, setNewPet] = useState<Pet>({
+    id: "",
+    species: "",
+    name: "",
+    breed: "",
+    sex: "",
+    age: 0,
+    color: "",
+    location: "",
+    contactNo: "",
+    description: "",
+  });
 
   const fetchPets = async () => {
     try {
@@ -41,7 +56,7 @@ const PetListPage = () => {
     setEditedPetData({ ...pet });
   };
 
-  const handleInputChange = (field: keyof Pet, value: string) => {
+  const handleInputChange = (field: keyof Pet, value: string | number) => {
     setEditedPetData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -65,14 +80,27 @@ const PetListPage = () => {
     }
   };
 
-  const saveAllChanges = async () => {
-    if (!editingPetId || !editedPetData) return;
-
+  const handleAddPet = async () => {
     try {
-      await saveEditedPet();
-      alert("Changes saved successfully!");
+      const response = await axios.post(
+        "http://localhost:8080/api/pets",
+        newPet
+      );
+      setPets((prev) => [...prev, response.data]);
+      setNewPet({
+        id: "",
+        species: "",
+        name: "",
+        breed: "",
+        sex: "",
+        age: 0,
+        color: "",
+        location: "",
+        contactNo: "",
+        description: "",
+      });
     } catch (err) {
-      console.error("Failed to save all changes:", err);
+      console.error("Failed to add new pet:", err);
     }
   };
 
@@ -80,94 +108,92 @@ const PetListPage = () => {
     fetchPets();
   }, []);
 
+  const renderEditableCell = (
+    pet: Pet,
+    field: keyof Pet,
+    type: string = "text"
+  ) => {
+    if (editingPetId === pet.id) {
+      if (field === "sex") {
+        return (
+          <select
+            value={editedPetData[field] || ""}
+            onChange={(e) => handleInputChange(field, e.target.value)}
+            className="select"
+          >
+            <option value="">Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        );
+      } else if (field === "description") {
+        return (
+          <textarea
+            value={editedPetData[field] || ""}
+            onChange={(e) => handleInputChange(field, e.target.value)}
+            className="textarea"
+          />
+        );
+      } else {
+        return (
+          <input
+            type={type}
+            value={editedPetData[field] || ""}
+            onChange={(e) =>
+              handleInputChange(
+                field,
+                type === "number" ? Number(e.target.value) : e.target.value
+              )
+            }
+            className="input"
+          />
+        );
+      }
+    }
+    return pet[field];
+  };
+
   return (
     <div className="page">
       <div className="container">
         <div className="header">
-          <h1 className="title">Listed Pets</h1>
-          <button
-            onClick={() => navigate("/admin/add-pet")}
-            className="btn add-btn"
-          >
+          <h1 className="title">Pet Management System</h1>
+          <button className="btn add-btn" onClick={handleAddPet}>
             <Plus size={20} />
-            Add
+            Add New Pet
           </button>
         </div>
+
         <div className="table-wrapper">
           <table className="table">
             <thead>
               <tr>
-                <th>Pet ID</th>
+                <th>ID</th>
                 <th>Species</th>
                 <th>Name</th>
-                <th>Color</th>
+                <th>Breed</th>
                 <th>Sex</th>
+                <th>Age</th>
+                <th>Color</th>
+                <th>Location</th>
+                <th>Contact</th>
+                <th>Description</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {pets.map((pet) => (
                 <tr key={pet.id}>
-                  <td className="center">{pet.id}</td>
-                  <td>
-                    {editingPetId === pet.id ? (
-                      <input
-                        type="text"
-                        value={editedPetData.species || ""}
-                        onChange={(e) =>
-                          handleInputChange("species", e.target.value)
-                        }
-                        className="input"
-                      />
-                    ) : (
-                      pet.species
-                    )}
-                  </td>
-                  <td>
-                    {editingPetId === pet.id ? (
-                      <input
-                        type="text"
-                        value={editedPetData.name || ""}
-                        onChange={(e) =>
-                          handleInputChange("name", e.target.value)
-                        }
-                        className="input"
-                      />
-                    ) : (
-                      pet.name
-                    )}
-                  </td>
-                  <td>
-                    {editingPetId === pet.id ? (
-                      <input
-                        type="text"
-                        value={editedPetData.color || ""}
-                        onChange={(e) =>
-                          handleInputChange("color", e.target.value)
-                        }
-                        className="input"
-                      />
-                    ) : (
-                      pet.color
-                    )}
-                  </td>
-                  <td>
-                    {editingPetId === pet.id ? (
-                      <select
-                        value={editedPetData.sex || ""}
-                        onChange={(e) =>
-                          handleInputChange("sex", e.target.value)
-                        }
-                        className="select"
-                      >
-                        <option value="">Select</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                      </select>
-                    ) : (
-                      pet.sex
-                    )}
-                  </td>
+                  <td>{pet.id}</td>
+                  <td>{renderEditableCell(pet, "species")}</td>
+                  <td>{renderEditableCell(pet, "name")}</td>
+                  <td>{renderEditableCell(pet, "breed")}</td>
+                  <td>{renderEditableCell(pet, "sex")}</td>
+                  <td>{renderEditableCell(pet, "age", "number")}</td>
+                  <td>{renderEditableCell(pet, "color")}</td>
+                  <td>{renderEditableCell(pet, "location")}</td>
+                  <td>{renderEditableCell(pet, "contactNo")}</td>
+                  <td>{renderEditableCell(pet, "description")}</td>
                   <td className="action-cell">
                     {editingPetId === pet.id ? (
                       <button onClick={saveEditedPet} className="btn save-btn">
@@ -178,12 +204,14 @@ const PetListPage = () => {
                         <button
                           onClick={() => handleEditClick(pet)}
                           className="btn edit-btn"
+                          title="Edit"
                         >
                           <Edit size={16} />
                         </button>
                         <button
                           onClick={() => removePet(pet.id)}
                           className="btn delete-btn"
+                          title="Delete"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -194,11 +222,6 @@ const PetListPage = () => {
               ))}
             </tbody>
           </table>
-        </div>
-        <div className="save-all-wrapper">
-          <button onClick={saveAllChanges} className="btn save-all-btn">
-            Save All Changes
-          </button>
         </div>
       </div>
     </div>
