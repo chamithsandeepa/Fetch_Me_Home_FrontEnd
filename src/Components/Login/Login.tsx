@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Login.css";
 import home from "../../assets/home.jpg";
 import { loginUser } from "../../api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 interface SignInFormData {
   email: string;
@@ -88,6 +88,12 @@ const Login: React.FC = () => {
             <button type="submit" className="signin-button">
               Sign in
             </button>
+            <div className="signup-prompt">
+              <span>Not a member? </span>
+              <Link to="/register" className="signup-link">
+                Sign up Now
+              </Link>
+            </div>
           </form>
           <h2 className="adventure-text">SIGN IN TO YOUR ADVENTURE!</h2>
         </div>
