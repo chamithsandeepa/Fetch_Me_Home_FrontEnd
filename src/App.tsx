@@ -21,6 +21,7 @@ import AddPetForm from "./Components/AddPet/AddPet";
 import logos from "./assets/logos.jpg";
 import Blogs from "./Components/BlogPage/Blogs";
 import UserAccounts from "./Components/UserAccounts/UserAccounts";
+import AdminHomePage from "./Components/AdminHome/AdminHomePage";
 
 const App: React.FC = () => {
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -88,7 +89,7 @@ const App: React.FC = () => {
             path="/admin/*"
             element={
               <ProtectedAdminRoute>
-                <h1>HOme Page</h1>
+                <AdminHomePage />
               </ProtectedAdminRoute>
             }
           />

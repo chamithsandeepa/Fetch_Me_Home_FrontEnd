@@ -34,6 +34,7 @@ const PetAdoptionPage: React.FC = () => {
 
   const [visiblePets, setVisiblePets] = useState<number>(6);
   const [pets, setPets] = useState<Pet[]>([]);
+  const [filteredPets, setFilteredPets] = useState<Pet[]>([]);
 
   const resetFilters = (): void => {
     setFilters({ species: "", gender: "", age: "", color: "" });
@@ -51,6 +52,30 @@ const PetAdoptionPage: React.FC = () => {
 
     getPets();
   }, []);
+
+  const handleFilter = (): void => {
+    if (filters.species === "" && filters.age === "") {
+      setFilteredPets(pets);
+      return;
+    }
+
+    const filteredPets = pets.filter((pet) => {
+      return (
+        (filters.species === "" || pet.species === filters.species) &&
+        (filters.age === "" || pet.age === filters.age)
+        // (filters.color === "" || pet.color === filters.color) &&
+        // (filters.gender === "" || pet.gender === filters.gender)
+      );
+    });
+
+    setFilteredPets(filteredPets);
+  };
+
+  console.log(filteredPets);
+
+  useEffect(() => {
+    setFilteredPets(pets);
+  }, [pets]);
 
   return (
     <div className="adoption-page">
@@ -126,7 +151,7 @@ const PetAdoptionPage: React.FC = () => {
               <button onClick={resetFilters} className="adoption-btn reset">
                 <RefreshCw size={16} /> Reset
               </button>
-              <button className="adoption-btn search">
+              <button className="adoption-btn search" onClick={handleFilter}>
                 <Search size={16} /> Search
               </button>
             </div>
@@ -134,7 +159,7 @@ const PetAdoptionPage: React.FC = () => {
 
           {/* Pet Cards Grid */}
           <main className="adoption-pet-grid">
-            {pets.slice(0, visiblePets).map((pet) => (
+            {filteredPets.slice(0, visiblePets).map((pet) => (
               <div key={pet.id} className="adoption-pet-card">
                 {/* Use Link to navigate to pet profile page */}
                 <Link to={`/pet-profile/${pet.id}`}>
