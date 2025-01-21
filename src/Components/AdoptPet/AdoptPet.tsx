@@ -3,17 +3,8 @@ import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import "./AdoptPet.css";
 import { Search, RefreshCw } from "lucide-react";
 import axios from "axios";
+import { Pet } from "../../types/pet";
 
-interface Pet {
-  id: string;
-  name: string;
-  age: string;
-  location: string;
-  imageUrl: string;
-  species: string;
-  breed: string;
-  description: string;
-}
 
 interface Filters {
   species: string;
@@ -62,9 +53,9 @@ const PetAdoptionPage: React.FC = () => {
     const filteredPets = pets.filter((pet) => {
       return (
         (filters.species === "" || pet.species === filters.species) &&
-        (filters.age === "" || pet.age === filters.age)
-        // (filters.color === "" || pet.color === filters.color) &&
-        // (filters.gender === "" || pet.gender === filters.gender)
+        (filters.age === "" || pet.age.toString() === filters.age)&&
+        (filters.color === "" || pet.color === filters.color) &&
+        (filters.gender === "" || pet.gender === filters.gender)
       );
     });
 
