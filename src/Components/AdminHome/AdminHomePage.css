@@ -1,0 +1,146 @@
+.dashboard-container {
+  padding: 2rem;
+  display: flex;
+  gap: 2rem;
+  min-height: 100vh;
+}
+
+.admin-section {
+  flex: 3;
+}
+
+.stats-section {
+  flex: 1;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+}
+
+.admin-cards {
+  display: flex;
+  gap: 1rem;
+}
+
+.admin-card {
+  flex: 1;
+  padding: 1rem;
+  transition: transform 0.2s ease-in-out;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-card:hover {
+  transform: translateY(-2px);
+}
+
+.admin-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.admin-image {
+  width: 250px; /* Increase the size */
+  height: 250px; /* Increase the size */
+  border-radius: 50%; /* Keep the image circular */
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.admin-details h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+.admin-role {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0.25rem 0;
+}
+
+.admin-amount {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin: 0.5rem 0 0 0;
+}
+
+.stats-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stats-card {
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stats-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stats-info h3 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #666;
+  margin: 0 0 0.5rem 0;
+}
+
+.stats-amount {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+.stats-icon {
+  color: #666;
+}
+
+.all-time {
+  background-color: #ef4444;
+  color: white;
+}
+
+.all-time h3,
+.all-time .stats-amount,
+.all-time .stats-icon {
+  color: white;
+}
+
+.today {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.today h3,
+.today .stats-amount,
+.today .stats-icon {
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .admin-cards {
+    flex-direction: column;
+  }
+
+  .admin-card {
+    width: 100%;
+  }
+}
