@@ -8,33 +8,28 @@ export interface Pet {
   imageUrl: string;
   description: string;
   color: string;
-  gender: string;
+  // gender: string;
   location: string;
   contactNo: string;
 }
 
-export interface AddPetFormData {
-  species: string;
-  name: string;
-  breed: string;
-  sex: string;
-  age: string;
-  color: string;
-  location: string;
-  contactNo: string;
-  description: string;
-  imageUrl?: string;
+export interface AdoptionForm {
+  firstName: string;
+  lastName: string;
+  telephone: string;
+  email: string;
+  address: string;
+  otherPets: string;
+  petsNeutered: string;
+  secureGarden: string;
+  animalSleepLocation: string;
+  workHours: string;
+  previousRehoming: string;
+  happyHome: string;
+  childrenUnder16: string;
+  homeOwnership: string;
+  landlordPermission: string;
+  mainRoad: string;
 }
 
-export interface FormData {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  role:string;
-}
 
-export interface SignInFormData {
-  email: string;
-  password: string;
-}
