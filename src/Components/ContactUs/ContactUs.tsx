@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import './ContactUs.css';
+import React, { useState, useRef } from "react";
+import "./ContactUs.css";
+import emailjs from "@emailjs/browser";
 
 // Define the type for the form data
 interface FormData {
@@ -11,17 +12,20 @@ interface FormData {
 const ContactUs: React.FC = () => {
   // State to manage form data
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
   });
+
+  // Reference for the form
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   // Event handler for input and textarea changes
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -30,17 +34,45 @@ const ContactUs: React.FC = () => {
   // Event handler for form submission
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Handle further submission logic here
+
+    if (formRef.current) {
+      emailjs
+        .send(
+          "service_fyxpyhr", // Replace with your EmailJS service ID
+          "template_73mr5yp", // Replace with your EmailJS template ID
+          { ...formData }, // Convert formData to a Record<string, unknown>
+          "rE_fkaioi-bmm-GPe" // Replace with your EmailJS public key
+        )
+        .then(
+          (result) => {
+            console.log("Email successfully sent:", result.text);
+            alert("Your message has been sent successfully!");
+            // Reset form after successful submission
+            setFormData({
+              name: "",
+              email: "",
+              message: "",
+            });
+            formRef.current?.reset();
+          },
+          (error) => {
+            console.error("Failed to send email:", error.text);
+            alert("Failed to send the email. Please try again.");
+          }
+        );
+    }
   };
 
   // Event handler for cancel/reset button
   const handleCancel = (): void => {
     setFormData({
-      name: '',
-      email: '',
-      message: '',
+      name: "",
+      email: "",
+      message: "",
     });
+    if (formRef.current) {
+      formRef.current.reset();
+    }
   };
 
   return (
@@ -49,10 +81,10 @@ const ContactUs: React.FC = () => {
         <h1 className="form-title">Contact Us</h1>
         <p className="form-subtitle">Please fill out the form below</p>
 
-        <form onSubmit={handleSubmit} className="form">
+        <form onSubmit={handleSubmit} ref={formRef} className="form">
           <input
             type="text"
-            name="name"
+            name="name" // This must match your EmailJS template key
             value={formData.name}
             onChange={handleChange}
             placeholder="Name"
@@ -62,7 +94,7 @@ const ContactUs: React.FC = () => {
 
           <input
             type="email"
-            name="email"
+            name="email" // This must match your EmailJS template key
             value={formData.email}
             onChange={handleChange}
             placeholder="Email Address"
@@ -71,7 +103,7 @@ const ContactUs: React.FC = () => {
           />
 
           <textarea
-            name="message"
+            name="message" // This must match your EmailJS template key
             value={formData.message}
             onChange={handleChange}
             placeholder="Message"
