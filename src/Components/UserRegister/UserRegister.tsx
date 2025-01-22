@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../../api'; // Import your Axios function
 import './UserRegister.css';
-import { FormData } from "../../types/pet";
+import { FormData } from "../../types/user";
 
 
 const Register: React.FC = () => {

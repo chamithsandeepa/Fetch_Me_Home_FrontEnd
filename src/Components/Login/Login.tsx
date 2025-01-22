@@ -3,7 +3,7 @@ import "./Login.css";
 import home from "../../assets/home.jpg";
 import { loginUser } from "../../api";
 import { useNavigate, Link } from "react-router-dom";
-import { SignInFormData } from "../../types/pet";
+import { SignInFormData } from "../../types/user";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<SignInFormData>({

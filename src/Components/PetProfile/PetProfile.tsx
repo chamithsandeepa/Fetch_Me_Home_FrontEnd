@@ -2,26 +2,25 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"; // Import useNavigate
 import "./PetProfile.css";
 import axios from "axios";
-
-// Define the type for pet data
-interface PetData {
-  id?: string;
-  name?: string;
-  breed?: string;
-  color?: string;
-  age?: string;
-  imageUrl?: string;
-  description?: string;
-  location?: string;
-  sex?: string;
-  contactNo?: string;
-}
+import { Pet } from "../../types/pet";
 
 const PetProfilePage: React.FC = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
   const params = useParams();
   // Initialize petData as an object
-  const [petData, setPetData] = useState<PetData>({});
+  const [petData, setPetData] = useState<Pet>({
+    id: "",
+    name: "",
+    species: "",
+    breed: "",
+    color: "",
+    age: "",
+    imageUrl: "",
+    description: "",
+    location: "",
+    sex: "",
+    contactNo: "",
+  });
   const id = params.petId; // Example pet ID
 
   useEffect(() => {

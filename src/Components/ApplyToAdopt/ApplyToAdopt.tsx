@@ -1,24 +1,6 @@
 import "./ApplyToAdopt.css";
 import { useForm } from "react-hook-form";
-
-interface AdoptionForm {
-  firstName: string;
-  lastName: string;
-  telephone: string;
-  email: string;
-  address: string;
-  otherPets: string;
-  petsNeutered: string;
-  secureGarden: string;
-  animalSleepLocation: string;
-  workHours: string;
-  previousRehoming: string;
-  happyHome: string;
-  childrenUnder16: string;
-  homeOwnership: string;
-  landlordPermission: string;
-  mainRoad: string;
-}
+import { AdoptionForm } from "../../types/pet";
 
 const AdoptionFormPage = () => {
   const {

@@ -4,18 +4,6 @@ import axios from "axios";
 import "./PetList.css";
 import { Pet } from "../../types/pet";
 
-// interface Pet {
-//   id: string;
-//   species: string;
-//   name: string;
-//   breed: string;
-//   sex: string;
-//   age: number;
-//   color: string;
-//   location: string;
-//   contactNo: string;
-//   description: string;
-// }
 
 const PetListPage = () => {
   const [pets, setPets] = useState<Pet[]>([]);
@@ -33,7 +21,6 @@ const PetListPage = () => {
     contactNo: "",
     description: "",
     imageUrl: "",
-    gender: "",
   });
 
   const fetchPets = async () => {
@@ -102,7 +89,7 @@ const PetListPage = () => {
               contactNo: "",
               description: "",
               imageUrl: "",
-              gender: "",
+              // gender: "",
             });
     } catch (err) {
       console.error("Failed to add new pet:", err);

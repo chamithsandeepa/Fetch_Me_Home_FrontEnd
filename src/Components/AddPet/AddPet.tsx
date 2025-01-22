@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./AddPet.css";
-import { AddPetFormData } from "../../types/pet";
+import { Pet } from "../../types/pet";
 import { Upload } from "lucide-react";
 
 const CLOUDINARY_CLOUD_NAME = "dhkig0hkl"; // Your Cloudinary cloud name
 const UPLOAD_PRESET = "pet-adoption-system"; // Your Cloudinary upload preset
 
 const AddPetForm = () => {
-  const [formData, setFormData] = useState<AddPetFormData>({
+  const [formData, setFormData] = useState<Pet>({
+    id: "",
     species: "",
     name: "",
     breed: "",
