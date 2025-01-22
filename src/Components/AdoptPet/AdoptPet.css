@@ -42,6 +42,7 @@
 
 .adoption-filter-group {
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .adoption-filter-group label {
@@ -52,17 +53,22 @@
   font-weight: bold;
 }
 
-.adoption-filter-group select {
+.adoption-filter-group select,
+.adoption-filter-group input {
   width: 100%;
+  box-sizing: border-box;
   padding: 0.6rem;
   border: 1px solid #ddd;
   border-radius: 4px;
   background: #f9f9f9;
+  font-size: 1rem;
   transition: border-color 0.3s;
 }
 
 .adoption-filter-group select:hover,
-.adoption-filter-group select:focus {
+.adoption-filter-group select:focus,
+.adoption-filter-group input:hover,
+.adoption-filter-group input:focus {
   border-color: #007bff;
   outline: none;
 }
@@ -193,7 +199,7 @@
 
 /* Load More Button Wrapper */
 .adoption-load-more-wrapper {
-  grid-column: 1 / -1; /* Ensures the button spans the full width of the grid */
+  grid-column: 1 / -1;
   display: flex;
   justify-content: center;
   margin-top: 2rem;

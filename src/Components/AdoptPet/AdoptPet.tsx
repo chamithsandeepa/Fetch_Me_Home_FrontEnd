@@ -5,10 +5,9 @@ import { Search, RefreshCw } from "lucide-react";
 import axios from "axios";
 import { Pet } from "../../types/pet";
 
-
 interface Filters {
   species: string;
-  gender: string;
+  sex: string;
   age: string;
   color: string;
   description?: string;
@@ -17,7 +16,7 @@ interface Filters {
 const PetAdoptionPage: React.FC = () => {
   const [filters, setFilters] = useState<Filters>({
     species: "",
-    gender: "",
+    sex: "",
     age: "",
     color: "",
     description: "",
@@ -28,7 +27,7 @@ const PetAdoptionPage: React.FC = () => {
   const [filteredPets, setFilteredPets] = useState<Pet[]>([]);
 
   const resetFilters = (): void => {
-    setFilters({ species: "", gender: "", age: "", color: "" });
+    setFilters({ species: "", sex: "", age: "", color: "" });
   };
 
   const loadMorePets = (): void => {
@@ -45,24 +44,25 @@ const PetAdoptionPage: React.FC = () => {
   }, []);
 
   const handleFilter = (): void => {
-    if (filters.species === "" && filters.age === "") {
-      setFilteredPets(pets);
-      return;
-    }
-
     const filteredPets = pets.filter((pet) => {
       return (
         (filters.species === "" || pet.species === filters.species) &&
-        (filters.age === "" || pet.age.toString() === filters.age)&&
-        (filters.color === "" || pet.color === filters.color) &&
-        (filters.gender === "" || pet.gender === filters.gender)
+        (filters.age === "" ||
+          pet.age
+            .toString()
+            .toLowerCase()
+            .includes(filters.age.toString().toLowerCase())) &&
+        (filters.color === "" ||
+          pet.color
+            .toString()
+            .toLowerCase()
+            .includes(filters.color.toLowerCase())) &&
+        (filters.sex === "" || pet.sex.toString() === filters.sex)
       );
     });
 
     setFilteredPets(filteredPets);
   };
-
-  console.log(filteredPets);
 
   useEffect(() => {
     setFilteredPets(pets);
@@ -83,11 +83,9 @@ const PetAdoptionPage: React.FC = () => {
                   setFilters({ ...filters, species: e.target.value })
                 }
               >
-                <option value="">Select Species</option>
+                <option value="">All Species</option>
                 <option value="dog">Dog</option>
                 <option value="cat">Cat</option>
-                <option value="bird">Bird</option>
-                <option value="rabbit">Rabbit</option>
               </select>
             </div>
 
@@ -95,47 +93,42 @@ const PetAdoptionPage: React.FC = () => {
               <label htmlFor="gender">Gender</label>
               <select
                 id="gender"
-                value={filters.gender}
+                value={filters.sex}
                 onChange={(e) =>
-                  setFilters({ ...filters, gender: e.target.value })
+                  setFilters({ ...filters, sex: e.target.value })
                 }
+                // onChange={(e) => console.log(e.target.value)}
               >
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+                <option value=""> All Sex</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
               </select>
             </div>
 
             <div className="adoption-filter-group">
               <label htmlFor="age">Age</label>
-              <select
+              <input
                 id="age"
+                type="text"
+                placeholder="Enter Age"
                 value={filters.age}
                 onChange={(e) =>
                   setFilters({ ...filters, age: e.target.value })
                 }
-              >
-                <option value="">Select Age</option>
-                <option value="puppy">Puppy</option>
-                <option value="young">Young</option>
-                <option value="adult">Adult</option>
-              </select>
+              />
             </div>
 
             <div className="adoption-filter-group">
               <label htmlFor="color">Color</label>
-              <select
+              <input
                 id="color"
+                type="text"
+                placeholder="Enter Color"
                 value={filters.color}
                 onChange={(e) =>
                   setFilters({ ...filters, color: e.target.value })
                 }
-              >
-                <option value="">Select Color</option>
-                <option value="brown">Brown</option>
-                <option value="black">Black</option>
-                <option value="white">White</option>
-              </select>
+              />
             </div>
 
             <div className="adoption-filter-actions">
