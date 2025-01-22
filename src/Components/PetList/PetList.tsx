@@ -2,19 +2,20 @@ import { useEffect, useState } from "react";
 import { Plus, Trash2, Edit } from "lucide-react";
 import axios from "axios";
 import "./PetList.css";
+import { Pet } from "../../types/pet";
 
-interface Pet {
-  id: string;
-  species: string;
-  name: string;
-  breed: string;
-  sex: string;
-  age: number;
-  color: string;
-  location: string;
-  contactNo: string;
-  description: string;
-}
+// interface Pet {
+//   id: string;
+//   species: string;
+//   name: string;
+//   breed: string;
+//   sex: string;
+//   age: number;
+//   color: string;
+//   location: string;
+//   contactNo: string;
+//   description: string;
+// }
 
 const PetListPage = () => {
   const [pets, setPets] = useState<Pet[]>([]);
@@ -26,11 +27,13 @@ const PetListPage = () => {
     name: "",
     breed: "",
     sex: "",
-    age: 0,
+    age: "",
     color: "",
     location: "",
     contactNo: "",
     description: "",
+    imageUrl: "",
+    gender: "",
   });
 
   const fetchPets = async () => {
@@ -88,17 +91,19 @@ const PetListPage = () => {
       );
       setPets((prev) => [...prev, response.data]);
       setNewPet({
-        id: "",
-        species: "",
-        name: "",
-        breed: "",
-        sex: "",
-        age: 0,
-        color: "",
-        location: "",
-        contactNo: "",
-        description: "",
-      });
+              id: "",
+              species: "",
+              name: "",
+              breed: "",
+              sex: "",
+              age: "",
+              color: "",
+              location: "",
+              contactNo: "",
+              description: "",
+              imageUrl: "",
+              gender: "",
+            });
     } catch (err) {
       console.error("Failed to add new pet:", err);
     }

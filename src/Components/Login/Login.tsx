@@ -3,11 +3,7 @@ import "./Login.css";
 import home from "../../assets/home.jpg";
 import { loginUser } from "../../api";
 import { useNavigate, Link } from "react-router-dom";
-
-interface SignInFormData {
-  email: string;
-  password: string;
-}
+import { SignInFormData } from "../../types/pet";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<SignInFormData>({
