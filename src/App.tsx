@@ -22,6 +22,7 @@ import logos from "./assets/logos.jpg";
 import Blogs from "./Components/BlogPage/Blogs";
 import UserAccounts from "./Components/UserAccounts/UserAccounts";
 import AdminHomePage from "./Components/AdminHome/AdminHomePage";
+import AdoptioAcc from "./Components/AdoptionAcc/AdoptionAcc";
 
 const App: React.FC = () => {
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -114,6 +115,14 @@ const App: React.FC = () => {
             element={
               <ProtectedAdminRoute>
                 <UserAccounts />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/admin/adoption-accounts"
+            element={
+              <ProtectedAdminRoute>
+                <AdoptioAcc />
               </ProtectedAdminRoute>
             }
           />

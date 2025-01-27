@@ -1,21 +1,48 @@
 import "./ApplyToAdopt.css";
 import { useForm } from "react-hook-form";
-import { AdoptionForm } from "../../types/pet";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+interface AdoptionForm {
+  fullName: string;
+  telephone: string;
+  email: string;
+  address: string;
+  otherPetsDetails: string;
+  neuteredPets: string;
+  secureGarden: string;
+  animalSleepLocation: string;
+  workHours: string;
+  surrenderReason: string;
+  adoptionAgreement: string;
+  childrenUnder16: string;
+  homeOwnership: string;
+  leaseAllowsPets: string;
+  nearMainRoad: string;
+}
 
 const AdoptionFormPage = () => {
+  
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<AdoptionForm>();
 
-  const onSubmit = (data: AdoptionForm) => {
-    console.log(data);
+  const onSubmit = async (data: AdoptionForm) => {
+    try {
+      await axios.post("http://localhost:8080/api/apply-pet", data);
+      alert("Form submitted successfully!");
+      navigate("/admin"); // Redirect to the admin panel
+    } catch (err) {
+      console.error("Failed to submit form:", err);
+      alert("Failed to submit the form. Please try again.");
+    }
   };
 
   return (
     <div className="adoption-form-container">
-      {/* Replaced Card with a div and added the necessary class */}
       <div className="form-card">
         <h1 className="form-title">Apply to Adopt</h1>
         <p className="form-description">
@@ -24,25 +51,25 @@ const AdoptionFormPage = () => {
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="form-fields">
+          {/* Form Fields */}
           {[
-            { name: "firstName", label: "First Name", required: true },
-            { name: "lastName", label: "Last Name", required: true },
+            { name: "fullName", label: "Full Name", required: true },
             { name: "telephone", label: "Telephone", required: true },
             { name: "email", label: "Email", required: true },
             { name: "address", label: "Address", required: true },
             {
-              name: "otherPets",
+              name: "otherPetsDetails",
               label: "Details of other pets in household",
               required: false,
             },
             {
-              name: "petsNeutered",
-              label: "If you have pets are they neutered?",
+              name: "neuteredPets",
+              label: "Are your pets neutered?",
               required: true,
             },
             {
               name: "secureGarden",
-              label: "Do you have a secure garden (applies to dogs only)",
+              label: "Do you have a secure garden? (for dogs only)",
               required: true,
             },
             {
@@ -52,42 +79,38 @@ const AdoptionFormPage = () => {
             },
             {
               name: "workHours",
-              label:
-                "Please describe work hours & maximum an animal will be home alone",
+              label: "Work hours & maximum alone time for the animal",
               required: true,
             },
             {
-              name: "previousRehoming",
-              label:
-                "Have you ever surrendered an animal previously for any reason?",
+              name: "surrenderReason",
+              label: "Reason for surrendering any animal in the past?",
               required: true,
             },
             {
-              name: "happyHome",
-              label:
-                "I agree that if adoption is a success, I will do my best to give my rescue animal the happy home they deserve",
+              name: "adoptionAgreement",
+              label: "I agree to provide a happy home for the adopted pet",
               required: true,
             },
             {
               name: "childrenUnder16",
-              label: "Is there children in the home under 16",
+              label: "Are there children under 16 at home?",
               required: true,
             },
             {
               name: "homeOwnership",
               label:
-                "Are you a home owner or renting please state if Council, Housing Association or Private",
+                "Do you own or rent your home? If renting, specify type (private/council).",
               required: true,
             },
             {
-              name: "landlordPermission",
-              label:
-                "If renting does your lease state you can have pets (We will need to contact Landlord for permission)",
+              name: "leaseAllowsPets",
+              label: "Does your lease allow pets? (for renters)",
               required: true,
             },
             {
-              name: "mainRoad",
-              label: "Do you live near a main road (Applies to cats only)",
+              name: "nearMainRoad",
+              label: "Do you live near a main road? (for cats only)",
               required: true,
             },
           ].map((field) => (
@@ -107,14 +130,6 @@ const AdoptionFormPage = () => {
               )}
             </div>
           ))}
-
-          <div className="checkbox-section">
-            <input type="checkbox" className="checkbox-input" required />
-            <label className="checkbox-label">
-              Can you please check your e-mail or spam folder to reply email
-              from facinme.home@gmail.com
-            </label>
-          </div>
 
           <div className="form-actions">
             <button type="button" className="cancel-btn">
