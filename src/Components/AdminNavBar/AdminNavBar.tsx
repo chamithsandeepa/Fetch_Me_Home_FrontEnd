@@ -49,6 +49,12 @@ const AdminNavBar = () => {
               to="/admin/user-accounts"
               isActive={location.pathname === "/admin/user-accounts"}
             />
+            <NavLink
+              icon={null}
+              text="Adoption Accounts"
+              to="/admin/adoption-accounts"
+              isActive={location.pathname === "/admin/adoption-accounts"}
+            />
           </div>
 
           {/* Right side - Admin Controls */}
