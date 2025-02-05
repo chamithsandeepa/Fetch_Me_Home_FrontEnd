@@ -1,54 +1,108 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import { Camera } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Camera, Upload } from "lucide-react";
+import axios from "axios";
 import "./Blogs.css";
 
 interface BlogPost {
   content: string;
-  image: string | null;
+  imageUrl: string;
 }
+
+const CLOUDINARY_CLOUD_NAME = "dhkig0hkl";
+const UPLOAD_PRESET = "pet-adoption-system";
 
 const Blogs = () => {
   const [blogPost, setBlogPost] = useState<BlogPost>({
     content: "",
-    image: null,
+    imageUrl: "",
   });
+  const [approvedBlogs, setApprovedBlogs] = useState<BlogPost[]>([]); // State to store approved blogs
+  const [isUploading, setIsUploading] = useState(false);
 
-  const isLoggedIn = false; // Replace with your actual login check logic
-  const navigate = useNavigate();
+  // Fetch approved blogs on component mount
+  useEffect(() => {
+    const fetchApprovedBlogs = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/blogs/public"
+        ); // Changed to the correct endpoint
+        setApprovedBlogs(response.data); // Assuming the backend has a route that returns approved blogs
+      } catch (error) {
+        console.error("Error fetching approved blogs:", error);
+      }
+    };
 
-  const handleSubmit = (e: React.FormEvent) => {
+    fetchApprovedBlogs();
+  }, []);
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setIsUploading(true);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", UPLOAD_PRESET);
+      formData.append("cloud_name", CLOUDINARY_CLOUD_NAME);
+
+      try {
+        const response = await axios.post(
+          `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+          formData
+        );
+        setBlogPost((prev) => ({
+          ...prev,
+          imageUrl: response.data.secure_url,
+        }));
+        alert("Image uploaded successfully!");
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        alert("Failed to upload image. Please try again.");
+      } finally {
+        setIsUploading(false);
+      }
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isLoggedIn) {
-      // Redirect to the registration page if not logged in
-      alert("You must be logged in to post a blog.");
-      navigate("/register");
-      return;
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/blogs",
+        blogPost,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      alert("Blog posted successfully!");
+      console.log(response.data);
+      setBlogPost({ content: "", imageUrl: "" }); // Reset the form
+    } catch (error: any) {
+      console.error("Error posting blog:", error.response || error.message);
+      alert("Failed to post blog. Please try again.");
     }
-
-    console.log("Blog post submitted:", blogPost);
-    // Add your submission logic here
   };
 
   return (
     <div className="blogs-container">
-      {/* Header Section with Example Posts */}
       <div className="blogs-header">
-        {[1, 2, 3, 4].map((num) => (
-          <div key={num} className="blog-card">
-            <div className="blog-image-placeholder">
-              <Camera className="blog-image-icon" size={32} />
+        {/* Show approved blogs */}
+        {approvedBlogs.length > 0 ? (
+          approvedBlogs.map((blog, index) => (
+            <div key={index} className="blog-card">
+              <div className="blog-image-placeholder">
+                <img src={blog.imageUrl} alt="Blog" className="blog-image" />
+              </div>
+              <p className="blog-description">{blog.content}</p>
             </div>
-            <p className="blog-description">
-              Discover heart-warming tales, pet care tips, and fun insights in
-              our blog!
-            </p>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No approved blogs to display.</p>
+        )}
       </div>
 
-      {/* Main Blog Creation Form */}
       <div className="blog-form-container">
         <h1 className="blog-form-title">
           Share your story about your PAWSOME Friend
@@ -67,40 +121,46 @@ const Blogs = () => {
                   setBlogPost({ ...blogPost, content: e.target.value })
                 }
                 placeholder="Share your story here..."
+                required
               />
             </div>
 
             <div className="form-group">
               <label className="form-label">Upload an Image</label>
-              <input
-                type="file"
-                accept="image/*"
-                className="form-file-input"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                      setBlogPost({
-                        ...blogPost,
-                        image: reader.result as string,
-                      });
-                    };
-                    reader.readAsDataURL(file);
-                  }
-                }}
-              />
+              <label className="form-file-upload">
+                <Upload className="upload-icon" />
+                <span>{isUploading ? "Uploading..." : "Choose an Image"}</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="form-file-input"
+                  onChange={handleFileChange}
+                />
+              </label>
+              {blogPost.imageUrl && (
+                <div className="uploaded-image-preview">
+                  <img
+                    src={blogPost.imageUrl}
+                    alt="Blog"
+                    className="image-preview"
+                  />
+                </div>
+              )}
             </div>
 
             <div className="form-actions">
               <button
                 type="button"
                 className="form-cancel-button"
-                onClick={() => setBlogPost({ content: "", image: null })}
+                onClick={() => setBlogPost({ content: "", imageUrl: "" })}
               >
                 Cancel
               </button>
-              <button type="submit" className="form-submit-button">
+              <button
+                type="submit"
+                className="form-submit-button"
+                disabled={isUploading}
+              >
                 Post
               </button>
             </div>
