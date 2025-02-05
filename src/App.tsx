@@ -23,6 +23,7 @@ import Blogs from "./Components/BlogPage/Blogs";
 import UserAccounts from "./Components/UserAccounts/UserAccounts";
 import AdminHomePage from "./Components/AdminHome/AdminHomePage";
 import AdoptionAcc from "./Components/AdoptionAcc/AdoptionAcc";
+import BlogRequestPage from "./Components/BlogRequests/BlogRqst";
 
 const App: React.FC = () => {
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -131,6 +132,14 @@ const App: React.FC = () => {
             element={
               <ProtectedAdminRoute>
                 <AdoptionAcc />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/admin/blog-requests"
+            element={
+              <ProtectedAdminRoute>
+                <BlogRequestPage />
               </ProtectedAdminRoute>
             }
           />
