@@ -99,7 +99,7 @@ const AdminPanel = () => {
   return (
     <div className="admin-panel">
       <div className="container">
-        <h1>Adoption Applications</h1>
+        <h1 className="title">Adoption Applications</h1>
         {error && <div className="error-message">{error}</div>}
         <div className="table-wrapper">
           <table>
