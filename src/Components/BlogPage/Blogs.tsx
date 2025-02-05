@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Camera, Upload } from "lucide-react";
+import { Upload } from "lucide-react";
 import axios from "axios";
 import "./Blogs.css";
 
