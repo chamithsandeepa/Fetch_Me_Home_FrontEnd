@@ -94,13 +94,14 @@ body {
 .input-container input,
 .signin-button {
   width: 100%; /* Ensures both input and button are the same width */
+  padding: 1rem; /* Same padding for input and button */
   box-sizing: border-box; /* Ensures padding and border are included in the width */
+  border-radius: 8px;
+  margin-top: 1.5rem;
 }
 
 .input-container input {
-  padding: 1rem;
   border: 2px solid #00bcd4;
-  border-radius: 8px;
   background-color: #ffffff;
   color: #004080;
   font-size: 1rem;
@@ -119,11 +120,9 @@ body {
 }
 
 .signin-button {
-  padding: 1rem;
   background-color: #004080;
   color: white;
   border: none;
-  border-radius: 8px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;

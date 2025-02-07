@@ -1,46 +1,44 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { registerUser } from '../../api'; // Import your Axios function
-import './UserRegister.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./UserRegister.css";
 import { FormData } from "../../types/user";
-
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    role:'user'
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "user",
   });
 
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Call the Axios function to register the user
-      const response = await registerUser(formData);
-      console.log('Registration successful:', response);
+      const response = await axios.post(
+        "http://localhost:8080/api/users/register",
+        formData
+      );
+      setMessage({ type: "success", text: response.data });
 
-      // Display success message and navigate
-      setSuccessMessage('Registration successful!');
-      setErrorMessage(null);
-      setTimeout(() => navigate('/login'), 2000); // Redirect to login page after 2 seconds
+      setTimeout(() => navigate("/login"), 2000);
     } catch (error: any) {
-      console.error('Registration failed:', error.message);
-      setErrorMessage(error.message); // Display error message
-      setSuccessMessage(null);
+      setMessage({
+        type: "error",
+        text: error.response?.data || "Something went wrong.",
+      });
     }
   };
 
@@ -48,9 +46,10 @@ const Register: React.FC = () => {
     <div className="register-container">
       <div className="register-card">
         <h1>REGISTER</h1>
+        {message && (
+          <div className={`message ${message.type}`}>{message.text}</div>
+        )}
         <form onSubmit={handleSubmit}>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
-          {successMessage && <div className="success-message">{successMessage}</div>}
           <div className="input-group">
             <input
               type="text"

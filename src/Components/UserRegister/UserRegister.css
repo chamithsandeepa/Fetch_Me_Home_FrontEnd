@@ -32,48 +32,43 @@
 .register-button {
   width: 100%; /* Ensures the width of inputs and buttons are consistent */
   box-sizing: border-box; /* Includes padding and borders in the width calculation */
+  padding: 12px; /* Matching padding between inputs and button */
+  font-size: 1rem;
+  font-weight: bold; /* Ensures consistent font weight */
+  border-radius: 8px;
 }
 
 .input-group input {
-  padding: 12px;
-  border: 2px solid #00bcd4; /* Match the Login input border color */
-  background-color: #ffffff; /* Match the Login input background color */
-  color: #004080; /* Match the Login input text color */
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold; /* Match the Login input font weight */
+  border: 2px solid #00bcd4; /* Border color similar to the Login input */
+  background-color: #ffffff; /* Match the background color of the inputs */
+  color: #004080; /* Text color matching the input in Login */
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .input-group input:focus {
   outline: none;
-  border-color: #004080; /* Match the Login input focus border color */
-  box-shadow: 0 0 8px rgba(0, 64, 128, 0.5); /* Match the Login input focus shadow */
+  border-color: #004080; /* Focus border color */
+  box-shadow: 0 0 8px rgba(0, 64, 128, 0.5); /* Focus shadow color */
 }
 
 .input-group input::placeholder {
-  color: rgba(0, 64, 128, 0.6); /* Match the Login input placeholder color */
+  color: rgba(0, 64, 128, 0.6); /* Placeholder color */
 }
 
 .register-button {
-  width: 100%; /* Match the button width with input */
-  padding: 12px;
-  background-color: #004080; /* Match the Login button background color */
+  background-color: #004080; /* Background color of the button */
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold; /* Match the Login button font weight */
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .register-button:hover {
-  background-color: #003366; /* Match the Login button hover color */
+  background-color: #003366; /* Hover effect for button */
 }
 
 .register-button:active {
-  transform: translateY(0); /* Match the Login button active state */
+  transform: translateY(0); /* Active state effect */
 }
 
 /* Responsive Design */
