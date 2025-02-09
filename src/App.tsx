@@ -18,7 +18,7 @@ import PetProfilePage from "./Components/PetProfile/PetProfile";
 import ApplyToAdoptPage from "./Components/ApplyToAdopt/ApplyToAdopt";
 import PetListPage from "./Components/PetList/PetList";
 import AddPetForm from "./Components/AddPet/AddPet";
-import logos from "./assets/logos.jpg";
+import Fetch from "./assets/Fetch.png";
 import Blogs from "./Components/BlogPage/Blogs";
 import UserAccounts from "./Components/UserAccounts/UserAccounts";
 import AdminHomePage from "./Components/AdminHome/AdminHomePage";
@@ -63,7 +63,7 @@ const App: React.FC = () => {
       <div className="app-container">
         {/* Render NavBar for non-admin pages */}
         {!window.location.pathname.startsWith("/admin") && (
-          <NavBar logoSrc={logos} navLinks={navLinks} />
+          <NavBar logoSrc={Fetch} navLinks={navLinks} />
         )}
 
         {/* Admin NavBar visible only on admin pages */}

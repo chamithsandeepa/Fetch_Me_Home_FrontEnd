@@ -1,6 +1,7 @@
 .navbar {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Safari Support */
   box-shadow: 0 2px 20px rgba(91, 33, 182, 0.08);
   padding: 0.75rem 0;
   position: sticky;
@@ -101,16 +102,41 @@
   box-shadow: 0 6px 16px rgba(124, 58, 237, 0.25);
 }
 
+/* Larger Devices */
+@media (min-width: 1200px) {
+  .navbar-container {
+    padding: 0 3rem; /* More padding for larger screens */
+  }
+
+  .navbar-links {
+    gap: 2rem; /* Larger gap between links */
+  }
+
+  .navbar-control-btn-logout {
+    padding: 0.6rem 1.5rem; /* Larger padding for logout button */
+  }
+}
+
+/* Tablet Devices (Up to 1024px) */
 @media (max-width: 1024px) {
   .navbar-container {
     padding: 0 1.5rem;
   }
 
-  .nav-link {
-    padding: 0.5rem 0.75rem;
+  .navbar-inner {
+    gap: 1.5rem; /* Reduced gap between elements */
+  }
+
+  .navbar-links {
+    gap: 1rem; /* Reduced gap between links */
+  }
+
+  .navbar-control-btn-logout {
+    padding: 0.5rem 1rem; /* Slightly smaller logout button */
   }
 }
 
+/* Mobile Devices (Up to 768px) */
 @media (max-width: 768px) {
   .navbar {
     padding: 0.5rem 0;
@@ -125,15 +151,57 @@
   .navbar-links {
     flex-direction: column;
     width: 100%;
+    padding: 0; /* No padding */
   }
 
   .nav-link {
     width: 100%;
     justify-content: center;
+    padding: 1rem; /* More space for mobile */
   }
 
   .navbar-controls {
     width: 100%;
     justify-content: center;
+  }
+
+  .navbar-logo-text {
+    font-size: 1.1rem; /* Slightly smaller logo text on mobile */
+  }
+
+  .nav-link {
+    font-size: 0.85rem; /* Adjust font size for mobile */
+  }
+
+  .navbar-control-btn-logout {
+    width: 100%; /* Full width logout button */
+    padding: 0.75rem 1.5rem; /* Bigger button */
+  }
+}
+
+/* Small Mobile Devices (Up to 480px) */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.3rem 0;
+  }
+
+  .navbar-inner {
+    gap: 0.5rem; /* Tight gap for small devices */
+  }
+
+  .navbar-links {
+    gap: 0.5rem; /* Reduced gap for small devices */
+  }
+
+  .nav-link {
+    font-size: 0.8rem; /* Smaller text on very small screens */
+  }
+
+  .navbar-logo-text {
+    font-size: 1rem; /* Smaller logo text on very small screens */
+  }
+
+  .navbar-control-btn-logout {
+    padding: 0.6rem 1.2rem; /* Slightly smaller logout button */
   }
 }

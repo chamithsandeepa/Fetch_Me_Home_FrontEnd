@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import Fetch from "../../assets/Fetch.png";
 import "./NavBar.css";
 
 interface NavLink {
@@ -48,7 +47,7 @@ const NavBar: React.FC<NavBarProps> = ({ logoSrc, navLinks }) => {
       <div className="nav-container">
         <div className="logo-container">
           <Link to="/">
-            <img src={Fetch} alt="Fetch Me Home" className="logo" />
+            <img src={logoSrc} alt="Fetch Me Home" className="logo" />
           </Link>
         </div>
         <nav className="nav-links">
