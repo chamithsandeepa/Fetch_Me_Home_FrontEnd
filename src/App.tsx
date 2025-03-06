@@ -128,7 +128,7 @@ const App: React.FC = () => {
             }
           />
           <Route
-            path="/admin/adoption-accounts"
+            path="/admin/adoption-requests"
             element={
               <ProtectedAdminRoute>
                 <AdoptionAcc />
