@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom"; // Import useNavigate
-import "./PetProfile.css";
+import { useNavigate, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import axios from "axios";
 import { Pet } from "../../types/pet";
 
 const PetProfilePage: React.FC = () => {
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate();
   const params = useParams();
-  // Initialize petData as an object
   const [petData, setPetData] = useState<Pet>({
     id: "",
     name: "",
@@ -21,7 +20,7 @@ const PetProfilePage: React.FC = () => {
     sex: "",
     contactNo: "",
   });
-  const id = params.petId; // Example pet ID
+  const id = params.petId;
 
   useEffect(() => {
     const getPets = async () => {
@@ -29,7 +28,7 @@ const PetProfilePage: React.FC = () => {
         const response = await axios.get(
           `http://localhost:8080/api/pets/${id}`
         );
-        setPetData(response.data); // Set the pet data
+        setPetData(response.data);
       } catch (error) {
         console.error("Error fetching pet data:", error);
       }
@@ -38,55 +37,85 @@ const PetProfilePage: React.FC = () => {
     getPets();
   }, [id]);
 
-  // Function to handle the navigation
   const handleApplyToAdopt = () => {
-    navigate("/adopt-to-pet"); // Navigate to the Adoption Form page
+    navigate("/adopt-to-pet");
   };
 
   return (
-    <div className="pet-profile">
-      <div className="profile-container">
-        <div className="profile-grid">
-          <div className="image-section">
+    <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white py-10 px-6 font-sans">
+      <motion.div
+        className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <div className="lg:grid lg:grid-cols-2 gap-6 p-8">
+          <div className="text-center">
             {petData.imageUrl && (
-              <img
+              <motion.img
                 src={petData.imageUrl}
                 alt={petData.name}
-                className="pet-image"
+                className="w-full h-80 object-cover rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105"
               />
             )}
-            <h2 className="title">Meet {petData.name || "this pet"}!</h2>
+            <h2 className="text-2xl font-semibold text-indigo-600 mt-4">
+              Meet {petData.name || "this pet"}!
+            </h2>
           </div>
 
-          <div className="details-section">
-            <h1 className="pet-name">{petData.name || "Unknown Pet"}</h1>
-            <div className="details-list">
+          <div className="text-center lg:text-left">
+            <motion.h1
+              className="text-3xl font-bold text-indigo-800"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+            >
+              {petData.name || "Unknown Pet"}
+            </motion.h1>
+
+            <div className="mt-4">
               {[
                 ["Breed", petData.breed],
                 ["Color", petData.color],
                 ["Age", petData.age],
                 ["Sex", petData.sex],
-                ["Contact NO", petData.contactNo],
-              ].map(([label, value]) => (
-                <div key={label} className="details-item">
-                  <span className="details-label">{label}:</span>
-                  <span className="details-value">
+                ["Contact No", petData.contactNo],
+              ].map(([label, value], index) => (
+                <motion.div
+                  key={label}
+                  className="flex justify-between items-center py-2 border-b border-gray-300"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: index * 0.2 }}
+                >
+                  <span className="font-medium text-gray-600">{label}:</span>
+                  <span className="text-gray-800">
                     {value || "Not specified"}
                   </span>
-                </div>
+                </motion.div>
               ))}
             </div>
-            <button className="adopt-button" onClick={handleApplyToAdopt}>
+
+            <motion.button
+              onClick={handleApplyToAdopt}
+              className="mt-6 w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-700 text-white font-semibold rounded-lg shadow-md transform transition duration-300 hover:scale-105 hover:from-indigo-700 hover:to-purple-800"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
               Apply to Adopt
-            </button>
+            </motion.button>
           </div>
         </div>
 
-        <div className="additional-info">
-          <h3>Description</h3>
-          <p>{petData.description || "No additional information provided."}</p>
+        <div className="mt-10 px-6">
+          <h3 className="text-2xl font-semibold text-indigo-700">
+            Description
+          </h3>
+          <p className="text-lg text-gray-600 mt-4">
+            {petData.description || "No additional information provided."}
+          </p>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

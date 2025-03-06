@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import "./Login.css";
 import home from "../../assets/home.jpg";
 import { SignInFormData } from "../../types/user";
 
@@ -41,48 +40,75 @@ const Login: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    if (role) {
+      navigate(role === "admin" ? "/admin" : "/");
+    }
+  }, []);
+
   return (
-    <div className="signin-container">
-      <div className="image-section">
-        <img src={home} alt="Dog and cat together" className="feature-image" />
+    <div className="flex min-h-screen bg-gradient-to-b from-indigo-100 via-blue-200 to-sky-300">
+      <div className="w-1/2 overflow-hidden relative">
+        <img
+          src={home}
+          alt="Dog and cat together"
+          className="w-full h-full object-cover filter brightness-75"
+        />
       </div>
-      <div className="form-section">
-        <div className="form-container">
-          <h1>SIGN IN</h1>
-          <p className="subtitle">Sign in with email address and password</p>
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gradient-to-b from-blue-200 to-indigo-100 shadow-xl">
+        <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:scale-105">
+          <h1 className="text-3xl font-bold text-center text-indigo-600 mb-4">
+            Sign In
+          </h1>
+          <p className="text-center text-gray-500 italic mb-8">
+            Sign in with email address and password
+          </p>
+          {errorMessage && (
+            <p className="text-red-500 text-center mb-4">{errorMessage}</p>
+          )}
           <form onSubmit={handleSubmit}>
-            <div className="input-container">
+            <div className="mb-6">
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Yourname@gmail.com"
+                className="w-full p-4 text-lg rounded-md border border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                 required
               />
             </div>
-            <div className="input-container">
+            <div className="mb-6">
               <input
                 type="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Password"
+                className="w-full p-4 text-lg rounded-md border border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                 required
               />
             </div>
-            <button type="submit" className="signin-button">
-              Sign in
+            <button
+              type="submit"
+              className="w-full py-3 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transform transition duration-200 ease-in-out hover:translate-y-1"
+            >
+              Sign In
             </button>
           </form>
-          <div className="signup-prompt">
-            <span>Not a member? </span>
-            <Link to="/register" className="signup-link">
+          <div className="text-center mt-6">
+            <span className="text-gray-600 text-sm">Not a member? </span>
+            <Link
+              to="/register"
+              className="text-indigo-600 text-sm font-semibold hover:underline"
+            >
               Sign up Now
             </Link>
           </div>
-          <h2 className="adventure-text">SIGN IN TO YOUR ADVENTURE!</h2>
+          <h2 className="mt-6 text-center text-indigo-600 text-lg font-bold">
+            Sign in to your adventure!
+          </h2>
         </div>
       </div>
     </div>
