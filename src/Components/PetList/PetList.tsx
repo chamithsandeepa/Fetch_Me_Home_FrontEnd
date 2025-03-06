@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { Plus, Trash2, Edit } from "lucide-react";
 import axios from "axios";
-import "./PetList.css";
 import { Pet } from "../../types/pet";
-
 
 const PetListPage = () => {
   const [pets, setPets] = useState<Pet[]>([]);
@@ -78,19 +76,18 @@ const PetListPage = () => {
       );
       setPets((prev) => [...prev, response.data]);
       setNewPet({
-              id: "",
-              species: "",
-              name: "",
-              breed: "",
-              sex: "",
-              age: "",
-              color: "",
-              location: "",
-              contactNo: "",
-              description: "",
-              imageUrl: "",
-              // gender: "",
-            });
+        id: "",
+        species: "",
+        name: "",
+        breed: "",
+        sex: "",
+        age: "",
+        color: "",
+        location: "",
+        contactNo: "",
+        description: "",
+        imageUrl: "",
+      });
     } catch (err) {
       console.error("Failed to add new pet:", err);
     }
@@ -111,7 +108,7 @@ const PetListPage = () => {
           <select
             value={editedPetData[field] || ""}
             onChange={(e) => handleInputChange(field, e.target.value)}
-            className="select"
+            className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Select</option>
             <option value="Male">Male</option>
@@ -123,7 +120,7 @@ const PetListPage = () => {
           <textarea
             value={editedPetData[field] || ""}
             onChange={(e) => handleInputChange(field, e.target.value)}
-            className="textarea"
+            className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 min-h-[80px] resize-y"
           />
         );
       } else {
@@ -137,7 +134,7 @@ const PetListPage = () => {
                 type === "number" ? Number(e.target.value) : e.target.value
               )
             }
-            className="input"
+            className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
           />
         );
       }
@@ -146,63 +143,92 @@ const PetListPage = () => {
   };
 
   return (
-    <div className="page">
-      <div className="container">
-        <div className="header">
-          <h1 className="title">Pet Management System</h1>
-          <button className="btn add-btn" onClick={handleAddPet}>
+    <div className="min-h-screen bg-gradient-to-b from-indigo-100 to-blue-100 p-8">
+      <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-lg p-6">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-semibold text-gray-800">
+            Pet Management System
+          </h1>
+          <button
+            className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200"
+            onClick={handleAddPet}
+          >
             <Plus size={20} />
             Add New Pet
           </button>
         </div>
 
-        <div className="table-wrapper">
-          <table className="table">
-            <thead>
+        <div className="overflow-x-auto shadow-md rounded-lg">
+          <table className="w-full table-auto">
+            <thead className="bg-blue-500 text-white text-left">
               <tr>
-                <th>ID</th>
-                <th>Species</th>
-                <th>Name</th>
-                <th>Breed</th>
-                <th>Sex</th>
-                <th>Age</th>
-                <th>Color</th>
-                <th>Location</th>
-                <th>Contact</th>
-                <th>Description</th>
-                <th>Actions</th>
+                <th className="px-4 py-2">ID</th>
+                <th className="px-4 py-2">Species</th>
+                <th className="px-4 py-2">Name</th>
+                <th className="px-4 py-2">Breed</th>
+                <th className="px-4 py-2">Sex</th>
+                <th className="px-4 py-2">Age</th>
+                <th className="px-4 py-2">Color</th>
+                <th className="px-4 py-2">Location</th>
+                <th className="px-4 py-2">Contact</th>
+                <th className="px-4 py-2">Description</th>
+                <th className="px-4 py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
               {pets.map((pet) => (
-                <tr key={pet.id}>
-                  <td>{pet.id}</td>
-                  <td>{renderEditableCell(pet, "species")}</td>
-                  <td>{renderEditableCell(pet, "name")}</td>
-                  <td>{renderEditableCell(pet, "breed")}</td>
-                  <td>{renderEditableCell(pet, "sex")}</td>
-                  <td>{renderEditableCell(pet, "age", "number")}</td>
-                  <td>{renderEditableCell(pet, "color")}</td>
-                  <td>{renderEditableCell(pet, "location")}</td>
-                  <td>{renderEditableCell(pet, "contactNo")}</td>
-                  <td>{renderEditableCell(pet, "description")}</td>
-                  <td className="action-cell">
+                <tr
+                  key={pet.id}
+                  className="hover:bg-gray-100 transition duration-200"
+                >
+                  <td className="px-4 py-2">{pet.id}</td>
+                  <td className="px-4 py-2">
+                    {renderEditableCell(pet, "species")}
+                  </td>
+                  <td className="px-4 py-2">
+                    {renderEditableCell(pet, "name")}
+                  </td>
+                  <td className="px-4 py-2">
+                    {renderEditableCell(pet, "breed")}
+                  </td>
+                  <td className="px-4 py-2">
+                    {renderEditableCell(pet, "sex")}
+                  </td>
+                  <td className="px-4 py-2">
+                    {renderEditableCell(pet, "age", "number")}
+                  </td>
+                  <td className="px-4 py-2">
+                    {renderEditableCell(pet, "color")}
+                  </td>
+                  <td className="px-4 py-2">
+                    {renderEditableCell(pet, "location")}
+                  </td>
+                  <td className="px-4 py-2">
+                    {renderEditableCell(pet, "contactNo")}
+                  </td>
+                  <td className="px-4 py-2">
+                    {renderEditableCell(pet, "description")}
+                  </td>
+                  <td className="px-4 py-2 flex gap-2">
                     {editingPetId === pet.id ? (
-                      <button onClick={saveEditedPet} className="btn save-btn">
+                      <button
+                        onClick={saveEditedPet}
+                        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-200"
+                      >
                         Save
                       </button>
                     ) : (
                       <>
                         <button
                           onClick={() => handleEditClick(pet)}
-                          className="btn edit-btn"
+                          className="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-200"
                           title="Edit"
                         >
                           <Edit size={16} />
                         </button>
                         <button
                           onClick={() => removePet(pet.id)}
-                          className="btn delete-btn"
+                          className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200"
                           title="Delete"
                         >
                           <Trash2 size={16} />

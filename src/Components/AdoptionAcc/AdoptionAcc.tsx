@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { Trash2, Edit } from "lucide-react";
 import axios from "axios";
-import "./AdoptionAcc.css";
 import { AdoptionForm } from "../../types/adoptionform";
 
-const AdminPanel = () => {
+const AdoptionAcc = () => {
   const [forms, setForms] = useState<AdoptionForm[]>([]);
   const [editingForms, setEditingForms] = useState<Set<string>>(new Set());
   const [editedFormsData, setEditedFormsData] = useState<
@@ -97,28 +96,30 @@ const AdminPanel = () => {
   }, []);
 
   return (
-    <div className="admin-panel">
-      <div className="container">
-        <h1 className="title">Adoption Applications</h1>
-        {error && <div className="error-message">{error}</div>}
-        <div className="table-wrapper">
-          <table>
-            <thead>
+    <div className="min-h-screen bg-gradient-to-b from-indigo-100 via-blue-50 to-white py-8">
+      <div className="max-w-screen-xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold text-gray-700 mb-6">
+          Adoption Applications
+        </h1>
+        {error && <div className="text-red-500 mb-4">{error}</div>}
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse bg-white">
+            <thead className="bg-blue-600 text-white">
               <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Contact</th>
-                <th>Address</th>
-                <th>Pet Details</th>
-                <th>Housing</th>
-                <th>Actions</th>
+                <th className="py-3 px-6 text-left">ID</th>
+                <th className="py-3 px-6 text-left">Name</th>
+                <th className="py-3 px-6 text-left">Contact</th>
+                <th className="py-3 px-6 text-left">Address</th>
+                <th className="py-3 px-6 text-left">Pet Details</th>
+                <th className="py-3 px-6 text-left">Housing</th>
+                <th className="py-3 px-6 text-left">Actions</th>
               </tr>
             </thead>
             <tbody>
               {forms.map((form) => (
-                <tr key={form.id}>
-                  <td>{form.id || "N/A"}</td>
-                  <td>
+                <tr key={form.id} className="border-b hover:bg-gray-100">
+                  <td className="py-3 px-6">{form.id || "N/A"}</td>
+                  <td className="py-3 px-6">
                     {editingForms.has(form.id) ? (
                       <input
                         type="text"
@@ -126,12 +127,13 @@ const AdminPanel = () => {
                         onChange={(e) =>
                           handleInputChange(form.id, "fullName", e.target.value)
                         }
+                        className="border rounded-md p-2 w-full"
                       />
                     ) : (
                       form.fullName || "N/A"
                     )}
                   </td>
-                  <td>
+                  <td className="py-3 px-6">
                     {editingForms.has(form.id) ? (
                       <>
                         <input
@@ -144,6 +146,7 @@ const AdminPanel = () => {
                               e.target.value
                             )
                           }
+                          className="border rounded-md p-2 w-full mb-2"
                         />
                         <input
                           type="email"
@@ -151,6 +154,7 @@ const AdminPanel = () => {
                           onChange={(e) =>
                             handleInputChange(form.id, "email", e.target.value)
                           }
+                          className="border rounded-md p-2 w-full"
                         />
                       </>
                     ) : (
@@ -160,10 +164,10 @@ const AdminPanel = () => {
                       </>
                     )}
                   </td>
-                  <td>{form.address || "N/A"}</td>
-                  <td>
-                    <details>
-                      <summary>View Details</summary>
+                  <td className="py-3 px-6">{form.address || "N/A"}</td>
+                  <td className="py-3 px-6">
+                    <details className="cursor-pointer">
+                      <summary className="text-blue-600">View Details</summary>
                       <div>Other Pets: {form.otherPetsDetails || "N/A"}</div>
                       <div>Neutered: {form.neuteredPets || "N/A"}</div>
                       <div>Garden: {form.secureGarden || "N/A"}</div>
@@ -172,9 +176,9 @@ const AdminPanel = () => {
                       </div>
                     </details>
                   </td>
-                  <td>
-                    <details>
-                      <summary>View Housing</summary>
+                  <td className="py-3 px-6">
+                    <details className="cursor-pointer">
+                      <summary className="text-blue-600">View Housing</summary>
                       <div>Children: {form.childrenUnder16 || "N/A"}</div>
                       <div>Ownership: {form.homeOwnership || "N/A"}</div>
                       <div>
@@ -183,16 +187,16 @@ const AdminPanel = () => {
                       <div>Near Main Road: {form.nearMainRoad || "N/A"}</div>
                     </details>
                   </td>
-                  <td>
+                  <td className="py-3 px-6 flex space-x-2">
                     <button
                       onClick={() => handleEditClick(form)}
-                      className="edit-btn"
+                      className="bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition-all"
                     >
                       <Edit size={16} />
                     </button>
                     <button
                       onClick={() => removeForm(form.id)}
-                      className="delete-btn"
+                      className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -203,7 +207,10 @@ const AdminPanel = () => {
           </table>
         </div>
         {editedFormsData.size > 0 && (
-          <button onClick={saveAllChanges} className="save-btn">
+          <button
+            onClick={saveAllChanges}
+            className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-all"
+          >
             Save All Changes
           </button>
         )}
@@ -212,4 +219,4 @@ const AdminPanel = () => {
   );
 };
 
-export default AdminPanel;
+export default AdoptionAcc;

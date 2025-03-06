@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Trash2, CheckCircle } from "lucide-react";
 import axios from "axios";
-import "./BlogRqst.css";
 
 interface Blog {
   id: string;
@@ -55,56 +54,58 @@ const BlogRequestPage = () => {
   }, []);
 
   return (
-    <div className="blog-page">
-      <div className="blog-container">
-        <h1 className="blog-title">All Blog Posts</h1>
-        <div className="blog-table-wrapper">
-          <table className="blog-table">
+    <div className="flex justify-center min-h-screen bg-gradient-to-b from-[#f3e8ff] to-[#e0f2fe] py-8">
+      <div className="w-4/5 bg-white p-6 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">
+          All Blog Posts
+        </h1>
+        <div className="overflow-x-auto">
+          <table className="w-full table-auto border-collapse">
             <thead>
               <tr>
-                <th>Blog ID</th>
-                <th>Content</th>
-                <th>Image</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th className="p-4 bg-[#007bff] text-white">Blog ID</th>
+                <th className="p-4 bg-[#007bff] text-white">Content</th>
+                <th className="p-4 bg-[#007bff] text-white">Image</th>
+                <th className="p-4 bg-[#007bff] text-white">Status</th>
+                <th className="p-4 bg-[#007bff] text-white">Actions</th>
               </tr>
             </thead>
             <tbody>
               {blogs.length > 0 ? (
                 blogs.map((blog) => (
-                  <tr key={blog.id}>
-                    <td className="center">{blog.id}</td>
-                    <td>{blog.content}</td>
-                    <td>
+                  <tr key={blog.id} className="border-b">
+                    <td className="text-center p-4">{blog.id}</td>
+                    <td className="p-4">{blog.content}</td>
+                    <td className="p-4">
                       {blog.imageUrl ? (
                         <img
                           src={blog.imageUrl}
                           alt="Blog"
-                          className="blog-img"
+                          className="w-12 h-12 object-cover rounded-md"
                         />
                       ) : (
                         "No Image"
                       )}
                     </td>
                     <td
-                      className={`status ${
-                        blog.approved ? "approved" : "pending"
+                      className={`p-4 text-center ${
+                        blog.approved ? "text-green-500" : "text-yellow-500"
                       }`}
                     >
                       {blog.approved ? "Approved" : "Pending"}
                     </td>
-                    <td className="blog-action-cell">
+                    <td className="p-4 flex gap-2 justify-center">
                       {!blog.approved && (
                         <button
                           onClick={() => approveBlog(blog.id)}
-                          className="blog-btn approve-btn"
+                          className="bg-green-500 text-white p-2 rounded-full hover:bg-green-600 transition-all"
                         >
                           <CheckCircle size={16} />
                         </button>
                       )}
                       <button
                         onClick={() => removeBlog(blog.id)}
-                        className="blog-btn delete-btn"
+                        className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-all"
                       >
                         <Trash2 size={16} />
                       </button>
@@ -113,7 +114,7 @@ const BlogRequestPage = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={5} className="center">
+                  <td colSpan={5} className="text-center p-4 text-gray-500">
                     No blogs found.
                   </td>
                 </tr>

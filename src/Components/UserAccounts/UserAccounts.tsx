@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Trash2, Edit } from "lucide-react";
 import axios from "axios";
-import "./UserAccounts.css";
 
 interface User {
   id: string;
@@ -97,24 +96,34 @@ const UserAccountPage = () => {
   }, []);
 
   return (
-    <div className="user-page">
-      <div className="user-container">
-        <h1 className="user-title">Manage User Accounts</h1>
-        <div className="user-table-wrapper">
-          <table className="user-table">
+    <div className="min-h-screen p-8 bg-gradient-to-b from-purple-100 via-blue-100 to-blue-200">
+      <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-lg p-6">
+        <h1 className="text-2xl font-bold text-gray-700 mb-6">
+          Manage User Accounts
+        </h1>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto border-collapse">
             <thead>
               <tr>
-                <th>User ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Actions</th>
+                <th className="px-4 py-3 bg-blue-500 text-white font-semibold text-left">
+                  User ID
+                </th>
+                <th className="px-4 py-3 bg-blue-500 text-white font-semibold text-left">
+                  Username
+                </th>
+                <th className="px-4 py-3 bg-blue-500 text-white font-semibold text-left">
+                  Email
+                </th>
+                <th className="px-4 py-3 bg-blue-500 text-white font-semibold text-left">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr key={user.id}>
-                  <td className="center">{user.id}</td>
-                  <td>
+                <tr key={user.id} className="hover:bg-gray-50 transition-all">
+                  <td className="text-center px-4 py-3">{user.id}</td>
+                  <td className="px-4 py-3">
                     {editingUsers.has(user.id) ? (
                       <input
                         type="text"
@@ -122,13 +131,13 @@ const UserAccountPage = () => {
                         onChange={(e) =>
                           handleInputChange(user.id, "name", e.target.value)
                         }
-                        className="user-input"
+                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                       />
                     ) : (
                       user.name
                     )}
                   </td>
-                  <td>
+                  <td className="px-4 py-3">
                     {editingUsers.has(user.id) ? (
                       <input
                         type="email"
@@ -136,22 +145,22 @@ const UserAccountPage = () => {
                         onChange={(e) =>
                           handleInputChange(user.id, "email", e.target.value)
                         }
-                        className="user-input"
+                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                       />
                     ) : (
                       user.email
                     )}
                   </td>
-                  <td className="user-action-cell">
+                  <td className="flex justify-center items-center space-x-2 px-4 py-3">
                     <button
                       onClick={() => handleEditClick(user)}
-                      className="user-btn edit-btn"
+                      className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-all"
                     >
                       <Edit size={16} />
                     </button>
                     <button
                       onClick={() => removeUser(user.id)}
-                      className="user-btn delete-btn"
+                      className="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition-all"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -162,8 +171,11 @@ const UserAccountPage = () => {
           </table>
         </div>
         {editedUsersData.size > 0 && (
-          <div className="user-save-container">
-            <button onClick={saveAllChanges} className="user-btn save-btn">
+          <div className="mt-6 flex justify-end">
+            <button
+              onClick={saveAllChanges}
+              className="bg-green-500 text-white py-2 px-6 rounded hover:bg-green-600 transition-all"
+            >
               Save Changes
             </button>
           </div>

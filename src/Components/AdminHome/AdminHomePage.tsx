@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import { Users, Star, ArrowUp, ArrowDown, Heart } from "lucide-react";
 import axios from "axios";
-import "./AdminHomePage.css";
+import { motion } from "framer-motion";
 
 interface User {
   id: number;
@@ -52,25 +52,21 @@ const AdminDashboard = () => {
       const users = usersResponse.data || [];
       const pets = petsResponse.data || [];
 
-      // Validate data
       if (!Array.isArray(users) || !Array.isArray(pets)) {
         throw new Error("Invalid data format from API");
       }
 
-      // Calculate stats
       const totalUsers = users.length;
       const totalPets = pets.length;
       const adoptedPets = pets.filter((pet) => pet.adopted).length;
       const adoptionRate =
         totalPets > 0 ? Math.round((adoptedPets / totalPets) * 100) : 0;
 
-      // Handle small user counts to avoid division errors
       const previousUsers = totalUsers > 10 ? totalUsers - 10 : 1;
       const userGrowth = Math.round((totalUsers / previousUsers - 1) * 100);
 
       const ratings = Math.random() * 5; // Simulated average rating
 
-      // Monthly stats (grouping by month)
       const monthlyStats = Array.from({ length: 12 }, (_, i) => ({
         month: new Date(0, i).toLocaleString("default", { month: "short" }),
         users: users.filter((user) => new Date(user.createdAt).getMonth() === i)
@@ -90,7 +86,7 @@ const AdminDashboard = () => {
       });
     } catch (err) {
       console.error("Failed to fetch stats:", err);
-      setStats(null); // Set stats to null to show an error message
+      setStats(null);
     } finally {
       setIsLoading(false);
     }
@@ -99,67 +95,92 @@ const AdminDashboard = () => {
   useEffect(() => {
     fetchStats();
 
-    // Real-time updates every 30 seconds
     const interval = setInterval(fetchStats, 30000);
     return () => clearInterval(interval);
   }, []);
 
   if (isLoading) {
     return (
-      <div className="loading-spinner">
-        <div className="spinner"></div>
+      <div className="flex flex-col items-center justify-center h-screen text-gray-600">
+        <div className="w-12 h-12 border-4 border-t-4 border-gray-300 border-t-blue-600 rounded-full animate-spin mb-5"></div>
         <p>Loading Dashboard...</p>
       </div>
     );
   }
 
   if (!stats) {
-    return <div>Error loading stats. Please try again later.</div>;
+    return (
+      <div className="text-center text-red-600">
+        Error loading stats. Please try again later.
+      </div>
+    );
   }
 
   return (
-    <div className="admin-dashboard">
-      <h1 className="dashboard-title">Admin Dashboard</h1>
+    <div className="p-8 bg-gradient-to-b from-purple-50 to-blue-100 min-h-screen font-inter">
+      <motion.h1
+        className="text-4xl font-extrabold text-gray-900 mb-8"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        Admin Dashboard
+      </motion.h1>
 
-      <div className="dashboard-stats-grid">
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
         {[
           {
             title: "Total Users",
             value: stats.totalUsers,
             growth: stats.userGrowth,
             icon: <Users size={24} />,
-            colorClass: "stat-users",
+            colorClass: "bg-gradient-to-r from-blue-400 to-blue-600 text-white",
           },
           {
             title: "Total Pets",
             value: stats.totalPets,
             icon: <Heart size={24} />,
-            colorClass: "stat-pets",
+            colorClass:
+              "bg-gradient-to-r from-yellow-400 to-yellow-600 text-white",
           },
           {
             title: "Adoption Rate",
             value: `${stats.adoptionRate}%`,
             icon: <ArrowUp size={24} />,
-            colorClass: "stat-adoption",
+            colorClass:
+              "bg-gradient-to-r from-green-400 to-green-600 text-white",
           },
           {
             title: "Average Rating",
             value: stats.ratings.toFixed(1),
             icon: <Star size={24} />,
-            colorClass: "stat-rating",
+            colorClass: "bg-gradient-to-r from-red-400 to-red-600 text-white",
           },
         ].map((stat, index) => (
-          <div key={index} className="dashboard-stat-card">
-            <div className={`dashboard-stat-icon ${stat.colorClass}`}>
+          <motion.div
+            key={index}
+            className="bg-white backdrop-blur-sm rounded-lg p-6 shadow-lg flex items-center space-x-6"
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: index * 0.2 }}
+          >
+            <div className={`p-4 rounded-full ${stat.colorClass}`}>
               {stat.icon}
             </div>
-            <div className="dashboard-stat-info">
-              <h3 className="stat-title">{stat.title}</h3>
-              <p className="stat-number">{stat.value}</p>
+            <div>
+              <h3 className="text-sm text-gray-600 uppercase font-semibold mb-2">
+                {stat.title}
+              </h3>
+              <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
               {stat.growth !== undefined && (
                 <span
-                  className={`stat-growth ${
-                    stat.growth >= 0 ? "growth-positive" : "growth-negative"
+                  className={`flex items-center text-sm font-semibold mt-2 ${
+                    stat.growth >= 0 ? "text-green-500" : "text-red-500"
                   }`}
                 >
                   {stat.growth >= 0 ? (
@@ -171,13 +192,20 @@ const AdminDashboard = () => {
                 </span>
               )}
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
-      <div className="dashboard-charts-grid">
-        <div className="dashboard-chart-card">
-          <h3 className="chart-title">Monthly Statistics</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <motion.div
+          className="bg-white backdrop-blur-sm rounded-lg p-6 shadow-lg"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h3 className="text-xl font-semibold text-gray-900 mb-6">
+            Monthly Statistics
+          </h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={stats.monthlyStats}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -198,25 +226,32 @@ const AdminDashboard = () => {
               />
             </LineChart>
           </ResponsiveContainer>
-        </div>
+        </motion.div>
 
-        <div className="dashboard-summary-card">
-          <h3 className="chart-title">Quick Summary</h3>
-          <div className="summary-stats">
-            <div className="summary-item">
-              <span className="summary-label">Active Users Today</span>
-              <span className="summary-number">156</span>
+        <motion.div
+          className="bg-white backdrop-blur-sm rounded-lg p-6 shadow-lg"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.7 }}
+        >
+          <h3 className="text-xl font-semibold text-gray-900 mb-6">
+            Quick Summary
+          </h3>
+          <div className="space-y-4">
+            <div className="flex justify-between items-center py-4 border-b border-gray-200">
+              <span className="text-gray-600">Active Users Today</span>
+              <span className="font-semibold text-gray-900">156</span>
             </div>
-            <div className="summary-item">
-              <span className="summary-label">Pending Adoptions</span>
-              <span className="summary-number">23</span>
+            <div className="flex justify-between items-center py-4 border-b border-gray-200">
+              <span className="text-gray-600">Pending Adoptions</span>
+              <span className="font-semibold text-gray-900">23</span>
             </div>
-            <div className="summary-item">
-              <span className="summary-label">New Pets Today</span>
-              <span className="summary-number">12</span>
+            <div className="flex justify-between items-center py-4">
+              <span className="text-gray-600">New Pets Today</span>
+              <span className="font-semibold text-gray-900">12</span>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

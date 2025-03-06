@@ -1,4 +1,3 @@
-import "./ApplyToAdopt.css";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -22,7 +21,6 @@ interface AdoptionForm {
 }
 
 const AdoptionFormPage = () => {
-  
   const navigate = useNavigate();
   const {
     register,
@@ -42,15 +40,17 @@ const AdoptionFormPage = () => {
   };
 
   return (
-    <div className="adoption-form-container">
-      <div className="form-card">
-        <h1 className="form-title">Apply to Adopt</h1>
-        <p className="form-description">
+    <div className="min-h-screen bg-gradient-to-b from-sky-50 to-sky-100 py-6 px-4">
+      <div className="max-w-2xl mx-auto bg-sky-100 p-8 rounded-3xl shadow-lg">
+        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
+          Apply to Adopt
+        </h1>
+        <p className="text-sm text-gray-600 text-center mb-8">
           Please note you will not be able to submit your application until all
           fields marked as *Required are completed
         </p>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="form-fields">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Form Fields */}
           {[
             { name: "fullName", label: "Full Name", required: true },
@@ -114,28 +114,36 @@ const AdoptionFormPage = () => {
               required: true,
             },
           ].map((field) => (
-            <div key={field.name} className="form-field">
-              <label className="form-label">
+            <div key={field.name} className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
                 {field.label}
-                {field.required && <span className="required">*</span>}
+                {field.required && <span className="text-red-500">*</span>}
               </label>
               <input
                 {...register(field.name as keyof AdoptionForm, {
                   required: field.required,
                 })}
-                className="form-input"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {errors[field.name as keyof AdoptionForm] && (
-                <span className="error-message">This field is required</span>
+                <span className="text-red-500 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
           ))}
 
-          <div className="form-actions">
-            <button type="button" className="cancel-btn">
+          <div className="flex justify-end gap-4 mt-6">
+            <button
+              type="button"
+              className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200"
+            >
               Cancel
             </button>
-            <button type="submit" className="submit-btn">
+            <button
+              type="submit"
+              className="px-6 py-3 bg-indigo-900 text-white rounded-lg hover:bg-indigo-800 transition-colors duration-200"
+            >
               Submit
             </button>
           </div>
