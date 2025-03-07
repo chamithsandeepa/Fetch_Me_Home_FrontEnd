@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
 
 interface AdoptionForm {
   fullName: string;
@@ -31,11 +33,11 @@ const AdoptionFormPage = () => {
   const onSubmit = async (data: AdoptionForm) => {
     try {
       await axios.post("http://localhost:8080/api/apply-pet", data);
-      alert("Form submitted successfully!");
+      toast.success("Form submitted successfully!"); // Success Toast
       navigate("/admin"); // Redirect to the admin panel
     } catch (err) {
       console.error("Failed to submit form:", err);
-      alert("Failed to submit the form. Please try again.");
+      toast.error("Failed to submit the form. Please try again."); // Error Toast
     }
   };
 
@@ -149,6 +151,19 @@ const AdoptionFormPage = () => {
           </div>
         </form>
       </div>
+
+      {/* ToastContainer placed here */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

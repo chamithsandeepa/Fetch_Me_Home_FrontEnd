@@ -1,5 +1,7 @@
 import React, { useState, useRef } from "react";
 import emailjs from "@emailjs/browser";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
 
 interface FormData {
   name: string;
@@ -40,7 +42,7 @@ const ContactUs: React.FC = () => {
         .then(
           (result) => {
             console.log("Email successfully sent:", result.text);
-            alert("Your message has been sent successfully!");
+            toast.success("Your message has been sent successfully!"); // Success Toast
             setFormData({
               name: "",
               email: "",
@@ -50,7 +52,7 @@ const ContactUs: React.FC = () => {
           },
           (error) => {
             console.error("Failed to send email:", error.text);
-            alert("Failed to send the email. Please try again.");
+            toast.error("Failed to send the email. Please try again."); // Error Toast
           }
         );
     }
@@ -125,6 +127,19 @@ const ContactUs: React.FC = () => {
           </div>
         </form>
       </div>
+
+      {/* ToastContainer placed here */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

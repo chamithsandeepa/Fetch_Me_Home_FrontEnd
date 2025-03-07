@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import home from "../../assets/home.jpg";
 import { SignInFormData } from "../../types/user";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import the CSS for toast notifications
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<SignInFormData>({
@@ -31,12 +33,19 @@ const Login: React.FC = () => {
         new CustomEvent("authChange", { detail: { role: response.data.role } })
       );
 
-      navigate(response.data.role === "admin" ? "/admin" : "/");
+      toast.success("Login successful! Redirecting...");
+
+      // Delay navigation to allow the toast to display
+      setTimeout(() => {
+        navigate(response.data.role === "admin" ? "/admin" : "/");
+      }, 2000);
+
       setErrorMessage(null);
     } catch (error: any) {
       setErrorMessage(
         error.response?.data || "Login failed. Please try again."
       );
+      toast.error(error.response?.data || "Login failed. Please try again.");
     }
   };
 
@@ -45,7 +54,7 @@ const Login: React.FC = () => {
     if (role) {
       navigate(role === "admin" ? "/admin" : "/");
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="flex min-h-screen bg-gradient-to-b from-indigo-100 via-blue-200 to-sky-300">
@@ -111,6 +120,19 @@ const Login: React.FC = () => {
           </h2>
         </div>
       </div>
+
+      {/* ToastContainer placed here */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

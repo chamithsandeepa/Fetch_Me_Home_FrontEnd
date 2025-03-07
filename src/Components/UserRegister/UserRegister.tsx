@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-import { FormData } from "../../types/user";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
@@ -13,32 +13,70 @@ const Register: React.FC = () => {
     role: "user",
   });
 
-  const [message, setMessage] = useState<{
-    type: "success" | "error";
-    text: string;
-  } | null>(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Handle Input Change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  // Validation Function
+  const validateForm = () => {
+    const { name, email, password, confirmPassword } = formData;
+
+    if (name.length < 3) {
+      toast.error("Name must be at least 3 characters long.");
+      return false;
+    }
+
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      toast.error("Enter a valid email address.");
+      return false;
+    }
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long.");
+      return false;
+    }
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match!");
+      return false;
+    }
+
+    return true;
+  };
+
+  // Handle Form Submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
+
+    setLoading(true);
+
     try {
       const response = await axios.post(
         "http://localhost:8080/api/users/register",
-        formData
+        formData,
+        { headers: { "Content-Type": "application/json" } }
       );
-      setMessage({ type: "success", text: response.data });
 
+      toast.success(response.data.message || "Registration successful!");
       setTimeout(() => navigate("/login"), 2000);
     } catch (error: any) {
-      setMessage({
-        type: "error",
-        text: error.response?.data || "Something went wrong.",
-      });
+      if (error.response?.status === 409) {
+        toast.error("Email is already registered. Try a different email.");
+      } else {
+        toast.error(
+          error.response?.data?.message ||
+            "Something went wrong. Please try again."
+        );
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -47,7 +85,7 @@ const Register: React.FC = () => {
     if (role) {
       navigate(role === "admin" ? "/admin" : "/");
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-indigo-100 via-blue-200 to-sky-300 p-4">
@@ -55,15 +93,6 @@ const Register: React.FC = () => {
         <h1 className="text-4xl font-bold text-center text-indigo-600 mb-8">
           Register
         </h1>
-        {message && (
-          <div
-            className={`text-center py-2 px-4 rounded-md mb-6 ${
-              message.type === "success" ? "bg-green-500" : "bg-red-500"
-            } text-white`}
-          >
-            {message.text}
-          </div>
-        )}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <input
@@ -111,12 +140,30 @@ const Register: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-4 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transform transition duration-200 hover:translate-y-1"
+            disabled={loading}
+            className={`w-full py-4 text-white rounded-lg transform transition duration-200 ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-indigo-600 hover:bg-indigo-700 hover:translate-y-1"
+            }`}
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
       </div>
+
+      {/* ToastContainer for displaying toasts */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

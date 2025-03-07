@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Upload } from "lucide-react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import the CSS for toast notifications
 
 const CLOUDINARY_CLOUD_NAME = "dhkig0hkl";
 const UPLOAD_PRESET = "pet-adoption-system";
@@ -52,10 +54,10 @@ const Blogs = () => {
           ...prev,
           imageUrl: response.data.secure_url,
         }));
-        alert("Image uploaded successfully!");
+        toast.success("Image uploaded successfully!"); // Toast for image upload
       } catch (error) {
         console.error("Error uploading image:", error);
-        alert("Failed to upload image. Please try again.");
+        toast.error("Failed to upload image. Please try again."); // Toast for image upload failure
       } finally {
         setIsUploading(false);
       }
@@ -66,8 +68,6 @@ const Blogs = () => {
     e.preventDefault();
     const role = localStorage.getItem("role");
     if (role === "user") {
-      //   navigate(role === "admin" ? "/admin" : "/");
-
       try {
         const response = await axios.post(
           "http://localhost:8080/api/blogs",
@@ -78,15 +78,15 @@ const Blogs = () => {
             },
           }
         );
-        alert("Blog posted successfully!");
+        toast.success("Blog posted successfully!"); // Toast for successful blog post
         console.log(response.data);
         setBlogPost({ content: "", imageUrl: "" }); // Reset the form
       } catch (error: any) {
         console.error("Error posting blog:", error.response || error.message);
-        alert("Failed to post blog. Please try again.");
+        toast.error("Failed to post blog. Please try again."); // Toast for failed blog post
       }
     } else {
-      alert("You need to be logged in to post a blog.");
+      toast.error("You need to be logged in to post a blog."); // Toast if user is not logged in
     }
   };
 
@@ -198,6 +198,19 @@ const Blogs = () => {
           </div>
         </form>
       </div>
+
+      {/* ToastContainer placed here */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

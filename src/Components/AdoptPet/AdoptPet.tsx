@@ -41,7 +41,7 @@ const PetAdoptionPage: React.FC = () => {
   }, []);
 
   const handleFilter = (): void => {
-    const filteredPets = pets.filter((pet) => {
+    const filtered = pets.filter((pet) => {
       return (
         (filters.species === "" || pet.species === filters.species) &&
         (filters.age === "" ||
@@ -57,7 +57,8 @@ const PetAdoptionPage: React.FC = () => {
         (filters.sex === "" || pet.sex.toString() === filters.sex)
       );
     });
-    setFilteredPets(filteredPets);
+    setFilteredPets(filtered);
+    setVisiblePets(6); // Reset visible pets count when filtering
   };
 
   useEffect(() => {
@@ -168,7 +169,7 @@ const PetAdoptionPage: React.FC = () => {
                 </div>
               </div>
             ))}
-            {visiblePets < pets.length && (
+            {filteredPets.length > visiblePets && filteredPets.length > 0 && (
               <button
                 onClick={loadMorePets}
                 className="col-span-full bg-green-500 text-white py-2 px-6 rounded-lg hover:bg-green-700"
