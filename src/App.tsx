@@ -28,13 +28,6 @@ import BlogRequestPage from "./Components/BlogRequests/BlogRqst";
 const App: React.FC = () => {
   const [userRole, setUserRole] = useState<string | null>(null);
 
-  const navLinks = [
-    { label: "Home", path: "/" },
-    { label: "About Us", path: "/about" },
-    { label: "Blogs", path: "/blogs" },
-    { label: "Contact Us", path: "/contact" },
-  ];
-
   useEffect(() => {
     const checkRole = () => {
       const role = localStorage.getItem("role");
@@ -52,23 +45,39 @@ const App: React.FC = () => {
   }, []);
 
   const ProtectedAdminRoute = ({ children }: { children: React.ReactNode }) => {
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      setLoading(false);
+    }, [userRole]);
+
+    if (loading) return <div>Loading...</div>;
+
     if (userRole !== "admin") {
       return <Navigate to="/login" />;
     }
+
     return <>{children}</>;
   };
+
 
   return (
     <Router>
       <div className="app-container">
-        {/* Render NavBar for non-admin pages */}
-        {!window.location.pathname.startsWith("/admin") && (
-          <NavBar logoSrc={Fetch} navLinks={navLinks} />
+        {/* Dynamically render correct Navbar based on user role */}
+        {userRole === "admin" ? (
+          <AdminNavBar />
+        ) : (
+          <NavBar
+            logoSrc={Fetch}
+            navLinks={[
+              { label: "Home", path: "/" },
+              { label: "About Us", path: "/about" },
+              { label: "Blogs", path: "/blogs" },
+              { label: "Contact Us", path: "/contact" },
+            ]}
+          />
         )}
-
-        {/* Admin NavBar visible only on admin pages */}
-        {window.location.pathname.startsWith("/admin") &&
-          userRole === "admin" && <AdminNavBar />}
 
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -147,8 +156,8 @@ const App: React.FC = () => {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
 
-        {/* Render Footer for non-admin pages */}
-        {!window.location.pathname.startsWith("/admin") && <Footer />}
+        {/* Render Footer only if the user is not an admin */}
+        {userRole !== "admin" && <Footer />}
       </div>
     </Router>
   );
