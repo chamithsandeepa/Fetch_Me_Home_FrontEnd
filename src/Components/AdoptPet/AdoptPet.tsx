@@ -102,7 +102,7 @@ const PetAdoptionPage: React.FC = () => {
                   }
                 >
                   <option value="">All Sex</option>
-                  <option value="Male">Maleeeeeeeeee</option>
+                  <option value="Male">Male</option>
                   <option value="Female">Female</option>
                 </select>
               </div>
