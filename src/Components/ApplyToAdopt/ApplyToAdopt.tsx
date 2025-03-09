@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
+import "react-toastify/dist/ReactToastify.css";
 
 interface AdoptionForm {
+  petId: string;
   fullName: string;
   telephone: string;
   email: string;
@@ -24,6 +25,7 @@ interface AdoptionForm {
 
 const AdoptionFormPage = () => {
   const navigate = useNavigate();
+  const petId = useParams().id;
   const {
     register,
     handleSubmit,
@@ -32,12 +34,14 @@ const AdoptionFormPage = () => {
 
   const onSubmit = async (data: AdoptionForm) => {
     try {
-      await axios.post("http://localhost:8080/api/apply-pet", data);
-      toast.success("Form submitted successfully!"); // Success Toast
-      navigate("/admin"); // Redirect to the admin panel
+      const formData = { ...data, petId };
+      await axios.post("http://localhost:8080/api/apply-pet", formData);
+      console.log("Form submitted successfully:", formData);
+      toast.success("Form submitted successfully!");
+      setTimeout(() => navigate("/admin"), 2000);
     } catch (err) {
       console.error("Failed to submit form:", err);
-      toast.error("Failed to submit the form. Please try again."); // Error Toast
+      toast.error("Failed to submit the form. Please try again.");
     }
   };
 
@@ -49,92 +53,119 @@ const AdoptionFormPage = () => {
         </h1>
         <p className="text-sm text-gray-600 text-center mb-8">
           Please note you will not be able to submit your application until all
-          fields marked as *Required are completed
+          required fields are completed.
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Form Fields */}
+          {/* Form Fields with Validation */}
           {[
-            { name: "fullName", label: "Full Name", required: true },
-            { name: "telephone", label: "Telephone", required: true },
-            { name: "email", label: "Email", required: true },
-            { name: "address", label: "Address", required: true },
+            {
+              name: "fullName",
+              label: "Full Name",
+              validation: { required: "Full Name is required" },
+            },
+            {
+              name: "telephone",
+              label: "Telephone",
+              validation: {
+                required: "Telephone is required",
+                pattern: {
+                  value: /^[0-9]+$/,
+                  message: "Telephone must be numeric",
+                },
+              },
+            },
+            {
+              name: "email",
+              label: "Email",
+              validation: {
+                required: "Email is required",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                  message: "Invalid email address",
+                },
+              },
+            },
+            {
+              name: "address",
+              label: "Address",
+              validation: { required: "Address is required" },
+            },
             {
               name: "otherPetsDetails",
               label: "Details of other pets in household",
-              required: false,
+              validation: {},
             },
             {
               name: "neuteredPets",
               label: "Are your pets neutered?",
-              required: true,
+              validation: { required: "This field is required" },
             },
             {
               name: "secureGarden",
               label: "Do you have a secure garden? (for dogs only)",
-              required: true,
+              validation: { required: "This field is required" },
             },
             {
               name: "animalSleepLocation",
               label: "Where will the animal sleep at night?",
-              required: true,
+              validation: { required: "This field is required" },
             },
             {
               name: "workHours",
               label: "Work hours & maximum alone time for the animal",
-              required: true,
+              validation: { required: "This field is required" },
             },
             {
               name: "surrenderReason",
               label: "Reason for surrendering any animal in the past?",
-              required: true,
+              validation: { required: "This field is required" },
             },
             {
               name: "adoptionAgreement",
               label: "I agree to provide a happy home for the adopted pet",
-              required: true,
+              validation: { required: "You must agree to adopt responsibly" },
             },
             {
               name: "childrenUnder16",
               label: "Are there children under 16 at home?",
-              required: true,
+              validation: { required: "This field is required" },
             },
             {
               name: "homeOwnership",
               label:
                 "Do you own or rent your home? If renting, specify type (private/council).",
-              required: true,
+              validation: { required: "This field is required" },
             },
             {
               name: "leaseAllowsPets",
               label: "Does your lease allow pets? (for renters)",
-              required: true,
+              validation: { required: "This field is required" },
             },
             {
               name: "nearMainRoad",
               label: "Do you live near a main road? (for cats only)",
-              required: true,
+              validation: { required: "This field is required" },
             },
           ].map((field) => (
             <div key={field.name} className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                {field.label}
-                {field.required && <span className="text-red-500">*</span>}
+                {field.label} <span className="text-red-500">*</span>
               </label>
               <input
-                {...register(field.name as keyof AdoptionForm, {
-                  required: field.required,
-                })}
+                {...register(
+                  field.name as keyof AdoptionForm,
+                  field.validation
+                )}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {errors[field.name as keyof AdoptionForm] && (
                 <span className="text-red-500 text-sm">
-                  This field is required
+                  {errors[field.name as keyof AdoptionForm]?.message}
                 </span>
               )}
             </div>
           ))}
-
           <div className="flex justify-end gap-4 mt-6">
             <button
               type="button"
@@ -152,17 +183,10 @@ const AdoptionFormPage = () => {
         </form>
       </div>
 
-      {/* ToastContainer placed here */}
       <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
       />
     </div>
   );

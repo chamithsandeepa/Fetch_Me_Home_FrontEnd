@@ -60,7 +60,6 @@ const App: React.FC = () => {
     return <>{children}</>;
   };
 
-
   return (
     <Router>
       <div className="app-container">
@@ -91,7 +90,7 @@ const App: React.FC = () => {
             <>
               <Route path="/adopt" element={<AdoptPet />} />
               <Route path="/pet-profile/:petId" element={<PetProfilePage />} />
-              <Route path="/adopt-to-pet" element={<ApplyToAdoptPage />} />
+              <Route path="/adopt-to-pet/:id" element={<ApplyToAdoptPage />} />
             </>
           )}
 

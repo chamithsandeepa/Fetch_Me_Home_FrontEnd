@@ -11,6 +11,7 @@ export interface Pet {
   // gender: string;
   location: string;
   contactNo: string;
+  adopted: boolean;
 }
 
 export interface AdoptionForm {
@@ -31,5 +32,3 @@ export interface AdoptionForm {
   landlordPermission: string;
   mainRoad: string;
 }
-
-

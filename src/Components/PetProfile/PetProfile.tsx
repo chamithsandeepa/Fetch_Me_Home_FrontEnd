@@ -19,6 +19,7 @@ const PetProfilePage: React.FC = () => {
     location: "",
     sex: "",
     contactNo: "",
+    adopted: false,
   });
   const id = params.petId;
 
@@ -38,7 +39,7 @@ const PetProfilePage: React.FC = () => {
   }, [id]);
 
   const handleApplyToAdopt = () => {
-    navigate("/adopt-to-pet");
+    navigate(`/adopt-to-pet/${id}`);
   };
 
   return (

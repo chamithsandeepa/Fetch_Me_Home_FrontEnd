@@ -36,6 +36,9 @@ const PetAdoptionPage: React.FC = () => {
     const getPets = async () => {
       const response = await axios.get("http://localhost:8080/api/pets");
       setPets(response.data);
+      setPets((prev) => {
+        return prev.filter((pet) => pet.adopted === false);
+      });
     };
     getPets();
   }, []);

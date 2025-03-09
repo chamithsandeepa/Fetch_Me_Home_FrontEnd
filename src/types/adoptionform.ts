@@ -1,5 +1,6 @@
 export interface AdoptionForm {
   id: string;
+  petId: string;
   fullName: string;
   telephone: string;
   email: string;

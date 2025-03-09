@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import { Plus, Trash2, Edit } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import axios from "axios";
 import { Pet } from "../../types/pet";
 
 const PetListPage = () => {
   const [pets, setPets] = useState<Pet[]>([]);
-  const [editingPetId, setEditingPetId] = useState<string | null>(null);
-  const [editedPetData, setEditedPetData] = useState<Partial<Pet>>({});
-  const [newPet, setNewPet] = useState<Pet>({
-    id: "",
+  const [newPet, setNewPet] = useState<Omit<Pet, "id">>({
     species: "",
     name: "",
     breed: "",
@@ -19,6 +16,7 @@ const PetListPage = () => {
     contactNo: "",
     description: "",
     imageUrl: "",
+    adopted: false,
   });
 
   const fetchPets = async () => {
@@ -39,35 +37,6 @@ const PetListPage = () => {
     }
   };
 
-  const handleEditClick = (pet: Pet) => {
-    setEditingPetId(pet.id);
-    setEditedPetData({ ...pet });
-  };
-
-  const handleInputChange = (field: keyof Pet, value: string | number) => {
-    setEditedPetData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const saveEditedPet = async () => {
-    if (!editingPetId || !editedPetData) return;
-
-    try {
-      await axios.put(
-        `http://localhost:8080/api/pets/${editingPetId}`,
-        editedPetData
-      );
-      setPets((prev) =>
-        prev.map((pet) =>
-          pet.id === editingPetId ? { ...pet, ...editedPetData } : pet
-        )
-      );
-      setEditingPetId(null);
-      setEditedPetData({});
-    } catch (err) {
-      console.error("Failed to save edited pet:", err);
-    }
-  };
-
   const handleAddPet = async () => {
     try {
       const response = await axios.post(
@@ -76,7 +45,6 @@ const PetListPage = () => {
       );
       setPets((prev) => [...prev, response.data]);
       setNewPet({
-        id: "",
         species: "",
         name: "",
         breed: "",
@@ -87,6 +55,7 @@ const PetListPage = () => {
         contactNo: "",
         description: "",
         imageUrl: "",
+        adopted: false,
       });
     } catch (err) {
       console.error("Failed to add new pet:", err);
@@ -96,51 +65,6 @@ const PetListPage = () => {
   useEffect(() => {
     fetchPets();
   }, []);
-
-  const renderEditableCell = (
-    pet: Pet,
-    field: keyof Pet,
-    type: string = "text"
-  ) => {
-    if (editingPetId === pet.id) {
-      if (field === "sex") {
-        return (
-          <select
-            value={editedPetData[field] || ""}
-            onChange={(e) => handleInputChange(field, e.target.value)}
-            className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Select</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-        );
-      } else if (field === "description") {
-        return (
-          <textarea
-            value={editedPetData[field] || ""}
-            onChange={(e) => handleInputChange(field, e.target.value)}
-            className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 min-h-[80px] resize-y"
-          />
-        );
-      } else {
-        return (
-          <input
-            type={type}
-            value={editedPetData[field] || ""}
-            onChange={(e) =>
-              handleInputChange(
-                field,
-                type === "number" ? Number(e.target.value) : e.target.value
-              )
-            }
-            className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-          />
-        );
-      }
-    }
-    return pet[field];
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-100 to-blue-100 p-8">
@@ -171,7 +95,7 @@ const PetListPage = () => {
                 <th className="px-4 py-2">Color</th>
                 <th className="px-4 py-2">Location</th>
                 <th className="px-4 py-2">Contact</th>
-                <th className="px-4 py-2">Description</th>
+                <th className="px-4 py-2 w-1/4">Description</th>
                 <th className="px-4 py-2">Actions</th>
               </tr>
             </thead>
@@ -182,59 +106,24 @@ const PetListPage = () => {
                   className="hover:bg-gray-100 transition duration-200"
                 >
                   <td className="px-4 py-2">{pet.id}</td>
-                  <td className="px-4 py-2">
-                    {renderEditableCell(pet, "species")}
+                  <td className="px-4 py-2">{pet.species}</td>
+                  <td className="px-4 py-2">{pet.name}</td>
+                  <td className="px-4 py-2">{pet.breed}</td>
+                  <td className="px-4 py-2">{pet.sex}</td>
+                  <td className="px-4 py-2">{pet.age}</td>
+                  <td className="px-4 py-2">{pet.color}</td>
+                  <td className="px-4 py-2">{pet.location}</td>
+                  <td className="px-4 py-2">{pet.contactNo}</td>
+                  <td className="px-4 py-2 w-1/4 break-words">
+                    {pet.description}
                   </td>
                   <td className="px-4 py-2">
-                    {renderEditableCell(pet, "name")}
-                  </td>
-                  <td className="px-4 py-2">
-                    {renderEditableCell(pet, "breed")}
-                  </td>
-                  <td className="px-4 py-2">
-                    {renderEditableCell(pet, "sex")}
-                  </td>
-                  <td className="px-4 py-2">
-                    {renderEditableCell(pet, "age", "number")}
-                  </td>
-                  <td className="px-4 py-2">
-                    {renderEditableCell(pet, "color")}
-                  </td>
-                  <td className="px-4 py-2">
-                    {renderEditableCell(pet, "location")}
-                  </td>
-                  <td className="px-4 py-2">
-                    {renderEditableCell(pet, "contactNo")}
-                  </td>
-                  <td className="px-4 py-2">
-                    {renderEditableCell(pet, "description")}
-                  </td>
-                  <td className="px-4 py-2 flex gap-2">
-                    {editingPetId === pet.id ? (
-                      <button
-                        onClick={saveEditedPet}
-                        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-200"
-                      >
-                        Save
-                      </button>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => handleEditClick(pet)}
-                          className="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-200"
-                          title="Edit"
-                        >
-                          <Edit size={16} />
-                        </button>
-                        <button
-                          onClick={() => removePet(pet.id)}
-                          className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200"
-                          title="Delete"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </>
-                    )}
+                    <button
+                      onClick={() => removePet(pet.id)}
+                      className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200"
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </td>
                 </tr>
               ))}

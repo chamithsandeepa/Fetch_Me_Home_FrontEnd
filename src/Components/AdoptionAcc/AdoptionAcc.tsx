@@ -5,8 +5,9 @@ import { AdoptionForm } from "../../types/adoptionform";
 
 const AdoptionAcc = () => {
   const [forms, setForms] = useState<AdoptionForm[]>([]);
+  const [petNames, setPetNames] = useState<{ [key: string]: string }>({}); // Store pet names by petId
   const [error, setError] = useState<string | null>(null);
-  const [adoptedMessage, setAdoptedMessage] = useState<string | null>(null); // State to handle message
+  const [adoptedMessage, setAdoptedMessage] = useState<string | null>(null);
 
   const fetchForms = async () => {
     try {
@@ -15,9 +16,32 @@ const AdoptionAcc = () => {
       console.log(response.data, "Test receiving data");
       setForms(userForms);
       setError(null);
+
+      // Fetch pet names for each form
+      userForms.forEach((form: AdoptionForm) => {
+        fetchPetName(form.petId);
+      });
     } catch (err) {
       console.error("Failed to fetch forms:", err);
       setError("Error fetching forms. Please try again later.");
+    }
+  };
+
+  const fetchPetName = async (petId: string) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/pets/${petId}`
+      );
+      setPetNames((prev) => ({
+        ...prev,
+        [petId]: response.data.name, // Store pet name by petId
+      }));
+    } catch (err) {
+      console.error("Failed to fetch pet name:", err);
+      setPetNames((prev) => ({
+        ...prev,
+        [petId]: "Unknown", // Fallback if pet name cannot be fetched
+      }));
     }
   };
 
@@ -48,8 +72,8 @@ const AdoptionAcc = () => {
         prev.map((form) => (form.id === id ? { ...form, adopted: true } : form))
       );
       setError(null);
-      setAdoptedMessage("This pet has been adopted!"); // Set message when adoption status is updated
-      setTimeout(() => setAdoptedMessage(null), 3000); // Hide the message after 3 seconds
+      setAdoptedMessage("This pet has been adopted!");
+      setTimeout(() => setAdoptedMessage(null), 3000);
     } catch (err) {
       console.error("Failed to update form:", err);
       setError("Error updating the form. Please try again.");
@@ -79,12 +103,14 @@ const AdoptionAcc = () => {
             <thead className="bg-blue-700 text-white sticky top-0 z-10">
               <tr>
                 {[
+                  "Pet Name", // New column for pet name
                   "ID",
                   "Pet ID",
                   "Full Name",
                   "Telephone",
                   "Email",
                   "Address",
+                  "Other Pets",
                   "Neutered",
                   "Garden",
                   "Sleep Location",
@@ -95,7 +121,6 @@ const AdoptionAcc = () => {
                   "Home Ownership",
                   "Lease",
                   "Near Road",
-                  "Adopted",
                   "Actions",
                 ].map((header) => (
                   <th
@@ -113,6 +138,12 @@ const AdoptionAcc = () => {
                   key={form.id}
                   className="border-b hover:bg-gray-100 text-sm"
                 >
+                  {/* Pet Name Column */}
+                  <td className="py-4 px-6">
+                    {petNames[form.petId] || "Loading..."}
+                  </td>
+
+                  {/* Rest of the columns */}
                   {Object.entries(form).map(
                     ([key, value]) =>
                       key !== "otherPets" &&

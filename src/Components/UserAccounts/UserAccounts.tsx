@@ -6,6 +6,7 @@ interface User {
   id: string;
   name: string;
   email: string;
+  role: string; // Assuming `role` field determines if a user is an admin or not
 }
 
 const UserAccountPage = () => {
@@ -15,11 +16,15 @@ const UserAccountPage = () => {
     Map<string, Partial<User>>
   >(new Map());
 
-  // Fetch all users
+  // Fetch all users (excluding admins)
   const fetchUsers = async () => {
     try {
       const response = await axios.get("http://localhost:8080/api/users/all");
-      setUsers(response.data);
+      // Filter out admins
+      const filteredUsers = response.data.filter(
+        (user: User) => user.role !== "admin"
+      );
+      setUsers(filteredUsers);
     } catch (err) {
       console.error("Failed to fetch users:", err);
     }
