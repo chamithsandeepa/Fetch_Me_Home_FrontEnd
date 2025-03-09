@@ -26,7 +26,7 @@ const AboutUs: React.FC = () => {
         </p>
         <p className="mt-4 text-lg text-gray-700 leading-relaxed">
           We aim to educate users about real-life pet care while allowing them
-          to experience the joy of adoption. Our platform offers a variety of
+          to experience the joy and happiness of adoption. Our platform offers a variety of
           resources, tools, and educational content to make the adoption process
           easier for everyone.
         </p>
