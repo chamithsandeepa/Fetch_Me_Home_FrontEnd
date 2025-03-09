@@ -52,7 +52,7 @@ const AdoptionFormPage = () => {
           Apply to Adopt
         </h1>
         <p className="text-sm text-gray-600 text-center mb-8">
-          Please note you will not not be able to submit your application until all
+          Please note you will not be able to submit your application until all
           required fields are completed.
         </p>
 
