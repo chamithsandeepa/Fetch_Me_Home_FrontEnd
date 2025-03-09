@@ -59,7 +59,7 @@ const Register: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/users/register",
+        "http://localhost:8080/api/auth/signup",
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
