@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Trash2 } from "lucide-react";
+import { Trash2, CheckCircle } from "lucide-react";
 import axios from "axios";
 import { AdoptionForm } from "../../types/adoptionform";
 
 const AdoptionAcc = () => {
   const [forms, setForms] = useState<AdoptionForm[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [adoptedMessage, setAdoptedMessage] = useState<string | null>(null); // State to handle message
 
   const fetchForms = async () => {
     try {
@@ -30,6 +31,7 @@ const AdoptionAcc = () => {
       setError("Error removing the form. Please try again.");
     }
   };
+
   const updateAdaptStatus = async (id: string) => {
     try {
       const response = await axios.put(
@@ -46,6 +48,8 @@ const AdoptionAcc = () => {
         prev.map((form) => (form.id === id ? { ...form, adopted: true } : form))
       );
       setError(null);
+      setAdoptedMessage("This pet has been adopted!"); // Set message when adoption status is updated
+      setTimeout(() => setAdoptedMessage(null), 3000); // Hide the message after 3 seconds
     } catch (err) {
       console.error("Failed to update form:", err);
       setError("Error updating the form. Please try again.");
@@ -64,6 +68,12 @@ const AdoptionAcc = () => {
         </h1>
         {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
 
+        {adoptedMessage && (
+          <div className="text-green-500 text-center mb-4">
+            {adoptedMessage}
+          </div>
+        )}
+
         <div className="overflow-auto">
           <table className="min-w-full border-collapse bg-white shadow-lg rounded-lg">
             <thead className="bg-blue-700 text-white sticky top-0 z-10">
@@ -75,7 +85,6 @@ const AdoptionAcc = () => {
                   "Telephone",
                   "Email",
                   "Address",
-                  "Other Pets",
                   "Neutered",
                   "Garden",
                   "Sleep Location",
@@ -86,7 +95,6 @@ const AdoptionAcc = () => {
                   "Home Ownership",
                   "Lease",
                   "Near Road",
-                  "isAdopted",
                   "Adopted",
                   "Actions",
                 ].map((header) => (
@@ -105,20 +113,22 @@ const AdoptionAcc = () => {
                   key={form.id}
                   className="border-b hover:bg-gray-100 text-sm"
                 >
-                  {Object.entries(form).map(([key, value]) => (
-                    <td key={key} className="py-4 px-6">
-                      {value || "N/A"}
-                    </td>
-                  ))}
-                  <td className="py-4 px-6">
+                  {Object.entries(form).map(
+                    ([key, value]) =>
+                      key !== "otherPets" &&
+                      key !== "isAdopted" && (
+                        <td key={key} className="py-4 px-6">
+                          {value || "N/A"}
+                        </td>
+                      )
+                  )}
+                  <td className="py-4 px-6 flex justify-center gap-2">
                     <button
                       onClick={() => updateAdaptStatus(form.petId)}
-                      className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all"
+                      className="bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition-all"
                     >
-                      Approve
+                      <CheckCircle size={16} />
                     </button>
-                  </td>
-                  <td className="py-4 px-6">
                     <button
                       onClick={() => removeForm(form.id)}
                       className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all"
