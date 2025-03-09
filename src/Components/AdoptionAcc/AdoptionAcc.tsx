@@ -11,6 +11,7 @@ const AdoptionAcc = () => {
     try {
       const response = await axios.get("http://localhost:8080/api/apply-pet");
       const userForms = response.data;
+      console.log(response.data, "Test receiving data");
       setForms(userForms);
       setError(null);
     } catch (err) {
@@ -27,6 +28,27 @@ const AdoptionAcc = () => {
     } catch (err) {
       console.error("Failed to remove form:", err);
       setError("Error removing the form. Please try again.");
+    }
+  };
+  const updateAdaptStatus = async (id: string) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:8080/api/pets/${id}`,
+        true,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response.data, "Test receiving data");
+      setForms((prev) =>
+        prev.map((form) => (form.id === id ? { ...form, adopted: true } : form))
+      );
+      setError(null);
+    } catch (err) {
+      console.error("Failed to update form:", err);
+      setError("Error updating the form. Please try again.");
     }
   };
 
@@ -48,6 +70,7 @@ const AdoptionAcc = () => {
               <tr>
                 {[
                   "ID",
+                  "Pet ID",
                   "Full Name",
                   "Telephone",
                   "Email",
@@ -63,6 +86,8 @@ const AdoptionAcc = () => {
                   "Home Ownership",
                   "Lease",
                   "Near Road",
+                  "isAdopted",
+                  "Adopted",
                   "Actions",
                 ].map((header) => (
                   <th
@@ -85,7 +110,15 @@ const AdoptionAcc = () => {
                       {value || "N/A"}
                     </td>
                   ))}
-                  <td className="py-4 px-6 flex space-x-2">
+                  <td className="py-4 px-6">
+                    <button
+                      onClick={() => updateAdaptStatus(form.petId)}
+                      className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all"
+                    >
+                      Approve
+                    </button>
+                  </td>
+                  <td className="py-4 px-6">
                     <button
                       onClick={() => removeForm(form.id)}
                       className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all"
