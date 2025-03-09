@@ -88,7 +88,7 @@ const PetAdoptionPage: React.FC = () => {
                   }
                 >
                   <option value="">All Species</option>
-                  <option value="dog">Dog</option>
+                  <option value="dog">Doooooog</option>
                   <option value="cat">Cat</option>
                 </select>
               </div>
